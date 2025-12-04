@@ -56,34 +56,22 @@
   ],
   "socialLinks": [
     {
-      "name": "Twitter",
-      "url": "https://twitter.com/harishanbalagan",
-      "icon": "twitter",
-      "color": "#1DA1F2"
-    },
-    {
       "name": "LinkedIn",
-      "url": "https://linkedin.com/in/harishanbalagan",
+      "url": "https://www.linkedin.com/in/harishanbalagan/",
       "icon": "linkedin",
       "color": "#0A66C2"
     },
     {
-      "name": "Instagram",
-      "url": "https://instagram.com/harishanbalagan",
-      "icon": "instagram",
-      "color": "#E4405F"
+      "name": "X",
+      "url": "https://x.com/theflutterboi",
+      "icon": "x",
+      "color": "#000000"
     },
     {
-      "name": "Dribbble",
-      "url": "https://dribbble.com/harishanbalagan",
-      "icon": "dribbble",
-      "color": "#EA4C89"
-    },
-    {
-      "name": "Behance",
-      "url": "https://behance.net/harishanbalagan",
-      "icon": "behance",
-      "color": "#1769FF"
+      "name": "GitHub",
+      "url": "https://github.com/Harishwarrior",
+      "icon": "github",
+      "color": "#181717"
     }
   ]
 }

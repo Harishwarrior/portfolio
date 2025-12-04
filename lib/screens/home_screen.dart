@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/portfolio_model.dart';
 import '../services/portfolio_service.dart';
 
@@ -367,30 +369,43 @@ class _HomeScreenState extends State<HomeScreen> {
             runSpacing: 16,
             alignment: WrapAlignment.center,
             children: data.socialLinks.map((link) {
-              return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF5F5F5),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      _getSocialIcon(link.icon),
-                      size: 24,
-                      color: Color(int.parse(link.color.replaceFirst('#', '0xFF'))),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      link.name,
-                      style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF1A1A1A),
+              return InkWell(
+                onTap: () async {
+                  final uri = Uri.parse(link.url);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  }
+                },
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F5F5),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/${link.icon}.svg',
+                        width: 24,
+                        height: 24,
+                        colorFilter: ColorFilter.mode(
+                          Color(int.parse(link.color.replaceFirst('#', '0xFF'))),
+                          BlendMode.srcIn,
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 12),
+                      Text(
+                        link.name,
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF1A1A1A),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }).toList(),
@@ -398,23 +413,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-
-  IconData _getSocialIcon(String icon) {
-    switch (icon) {
-      case 'twitter':
-        return Icons.close;
-      case 'linkedin':
-        return Icons.business;
-      case 'instagram':
-        return Icons.camera_alt;
-      case 'dribbble':
-        return Icons.sports_basketball;
-      case 'behance':
-        return Icons.palette;
-      default:
-        return Icons.link;
-    }
   }
 
   Widget _buildFooter(PortfolioData data) {
