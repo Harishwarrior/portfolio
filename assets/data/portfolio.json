@@ -1,7 +1,7 @@
 {
   "name": "Harish Anbalagan",
   "availabilityBadge": "Available for hire",
-  "heroText": "Hi, I'm Harish – a Flutter developer currently living in California.",
+  "heroText": "Hi, I'm Harish\na Senior Software Engineer with {experience} years of experience",
   "availabilityMessage": "I'm looking for a full-time job.",
   "profileImage": "assets/images/profile.jpg",
   "workExperience": [

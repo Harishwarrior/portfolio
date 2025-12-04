@@ -161,7 +161,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  String _calculateExperience() {
+    final startDate = DateTime(2021, 8); // August 2021
+    final currentDate = DateTime.now();
+
+    int years = currentDate.year - startDate.year;
+    int months = currentDate.month - startDate.month;
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    if (months == 0) {
+      return '$years';
+    } else {
+      return '$years.$months';
+    }
+  }
+
   Widget _buildHeroSection(PortfolioData data) {
+    final experienceYears = _calculateExperience();
+    final heroText = data.heroText.replaceAll('{experience}', experienceYears);
+
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 120),
@@ -183,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 48),
             Text(
-              data.heroText,
+              heroText,
               style: GoogleFonts.inter(
                 fontSize: 48,
                 fontWeight: FontWeight.w400,
@@ -369,45 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
             runSpacing: 16,
             alignment: WrapAlignment.center,
             children: data.socialLinks.map((link) {
-              return InkWell(
-                onTap: () async {
-                  final uri = Uri.parse(link.url);
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri);
-                  }
-                },
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/${link.icon}.svg',
-                        width: 24,
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          Color(int.parse(link.color.replaceFirst('#', '0xFF'))),
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        link.name,
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF1A1A1A),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return _SocialLinkCard(link: link);
             }).toList(),
           ),
         ],
@@ -499,6 +483,82 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SocialLinkCard extends StatefulWidget {
+  final SocialLink link;
+
+  const _SocialLinkCard({required this.link});
+
+  @override
+  State<_SocialLinkCard> createState() => _SocialLinkCardState();
+}
+
+class _SocialLinkCardState extends State<_SocialLinkCard> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: InkWell(
+        onTap: () async {
+          final uri = Uri.parse(widget.link.url);
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri);
+          }
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+          decoration: BoxDecoration(
+            color: _isHovered ? const Color(0xFFEEEEEE) : const Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: _isHovered ? Colors.white : Colors.transparent,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: AnimatedScale(
+                  scale: _isHovered ? 1.1 : 1.0,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  child: SvgPicture.asset(
+                    'assets/icons/${widget.link.icon}.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                      Color(int.parse(widget.link.color.replaceFirst('#', '0xFF'))),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                widget.link.name,
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF1A1A1A),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
