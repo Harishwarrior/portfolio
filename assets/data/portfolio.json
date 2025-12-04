@@ -1,0 +1,89 @@
+{
+  "name": "Harish Anbalagan",
+  "availabilityBadge": "Available for hire",
+  "heroText": "Hi, I'm Harish – a Flutter developer currently living in California.",
+  "availabilityMessage": "I'm looking for a full-time job.",
+  "profileImage": "assets/images/profile.jpg",
+  "workExperience": [
+    {
+      "company": "Google, Inc.",
+      "location": "Mountain View, California",
+      "dateRange": "Oct 2021 – Nov 2024",
+      "description": "My role was ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dapibus magna nisi, vitae lacinia nisl laoreet posuere.",
+      "icon": "work",
+      "type": "work"
+    },
+    {
+      "company": "Meta, Inc.",
+      "location": "Remote",
+      "dateRange": "Aug 2019 – Oct 2021",
+      "description": "",
+      "icon": "work",
+      "type": "work"
+    },
+    {
+      "company": "Microsoft",
+      "location": "Remote",
+      "dateRange": "Feb 2019 – June 2019",
+      "description": "UI/UX Design for the upcoming platform of Microsoft.",
+      "icon": "work",
+      "type": "work"
+    },
+    {
+      "company": "Amazon",
+      "location": "Seattle, Washington",
+      "dateRange": "May 2016 – Jan 2019",
+      "description": "",
+      "icon": "work",
+      "type": "work"
+    },
+    {
+      "company": "Stanford University",
+      "location": "Masters in Computer Science",
+      "dateRange": "Sep 2013 – July 2015",
+      "description": "",
+      "icon": "school",
+      "type": "education"
+    },
+    {
+      "company": "UC Berkeley",
+      "location": "Bachelors in Software Engineering",
+      "dateRange": "Sep 2010 – July 2013",
+      "description": "",
+      "icon": "school",
+      "type": "education"
+    }
+  ],
+  "socialLinks": [
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/harishanbalagan",
+      "icon": "twitter",
+      "color": "#1DA1F2"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://linkedin.com/in/harishanbalagan",
+      "icon": "linkedin",
+      "color": "#0A66C2"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://instagram.com/harishanbalagan",
+      "icon": "instagram",
+      "color": "#E4405F"
+    },
+    {
+      "name": "Dribbble",
+      "url": "https://dribbble.com/harishanbalagan",
+      "icon": "dribbble",
+      "color": "#EA4C89"
+    },
+    {
+      "name": "Behance",
+      "url": "https://behance.net/harishanbalagan",
+      "icon": "behance",
+      "color": "#1769FF"
+    }
+  ]
+}
