@@ -1,0 +1,16 @@
+targets:
+  $default:
+    builders:
+      dart_mappable_builder:
+        enabled: true
+        options:
+          # Enable all features
+          caseStyle: snake_case
+          generateMethods:
+            - toJson
+            - fromJson
+            - copyWith
+            - equals
+            - toString
+          # Enable verbose logging for debugging
+          verbose: true

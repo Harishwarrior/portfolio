@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/home_screen.dart';
+import 'src/presentation/home_screen.dart';
 
 void main() {
-  runApp(const PortfolioApp());
+  runApp(const ProviderScope(child: PortfolioApp()));
 }
 
 class PortfolioApp extends StatelessWidget {
@@ -23,9 +24,7 @@ class PortfolioApp extends StatelessWidget {
           surface: Color(0xFFFFFFFF),
           error: Colors.red,
         ),
-        textTheme: GoogleFonts.interTextTheme(
-          ThemeData.light().textTheme,
-        ),
+        textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
         scaffoldBackgroundColor: const Color(0xFFF8F8F8),
         appBarTheme: AppBarTheme(
           backgroundColor: const Color(0xFFFFFFFF),

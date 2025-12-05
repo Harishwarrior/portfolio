@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../models/portfolio_model.dart';
-import '../models/timeline_model.dart';
-import '../services/portfolio_service.dart';
-import '../services/timeline_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../domain/portfolio_model.dart' as portfolio_models;
+import '../domain/timeline_model.dart' as timeline_models;
 import 'package:intl/intl.dart';
+import '../providers/portfolio_provider.dart';
+import '../providers/timeline_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,16 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<PortfolioData> _portfolioData;
-  late Future<TimelineData> _timelineData;
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _portfolioData = PortfolioService.loadPortfolioData();
-    _timelineData = TimelineService.loadTimelineData();
-  }
 
   @override
   void dispose() {
@@ -38,11 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
-      body: FutureBuilder<PortfolioData>(
-        future: _portfolioData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+      body: Consumer(
+        builder: (context, ref, child) {
+          final portfolioAsync = ref.watch(portfolioDataProviderProvider);
+
+          return portfolioAsync.when(
+            loading: () => Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -61,11 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-            );
-          }
-
-          if (snapshot.hasError) {
-            return Center(
+            ),
+            error: (error, stack) => Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -76,28 +66,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: GoogleFonts.inter(color: Colors.red),
                   ),
                   Text(
-                    snapshot.error.toString(),
+                    error.toString(),
                     style: GoogleFonts.inter(color: Colors.red, fontSize: 12),
                   ),
                 ],
               ),
-            );
-          }
+            ),
+            data: (data) {
+              final portfolioData = data;
+              final timelineAsync = ref.watch(timelineDataProviderProvider);
 
-          final data = snapshot.data!;
-
-          return SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              children: [
-                _buildHeader(data),
-                _buildHeroSection(data),
-                FutureBuilder<TimelineData>(
-                  future: _timelineData,
-                  builder: (context, timelineSnapshot) {
-                    if (timelineSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
+              return timelineAsync.when(
+                loading: () => SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+                      _buildHeader(portfolioData),
+                      _buildHeroSection(portfolioData),
+                      const Center(
                         child: Padding(
                           padding: EdgeInsets.all(80.0),
                           child: CircularProgressIndicator(
@@ -106,26 +92,48 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                      );
-                    }
-                    if (timelineSnapshot.hasError ||
-                        !timelineSnapshot.hasData) {
-                      return const SizedBox.shrink();
-                    }
-                    return _buildTimelineSection(timelineSnapshot.data!);
-                  },
+                      ),
+                      _buildSocialLinksSection(portfolioData),
+                      _buildFooter(portfolioData),
+                    ],
+                  ),
                 ),
-                _buildSocialLinksSection(data),
-                _buildFooter(data),
-              ],
-            ),
+                error: (error, stack) => SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+                      _buildHeader(portfolioData),
+                      _buildHeroSection(portfolioData),
+                      const SizedBox.shrink(),
+                      _buildSocialLinksSection(portfolioData),
+                      _buildFooter(portfolioData),
+                    ],
+                  ),
+                ),
+                data: (timelineData) {
+                  final timelineModelData = timelineData;
+                  return SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      children: [
+                        _buildHeader(portfolioData),
+                        _buildHeroSection(portfolioData),
+                        _buildTimelineSection(timelineModelData),
+                        _buildSocialLinksSection(portfolioData),
+                        _buildFooter(portfolioData),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
           );
         },
       ),
     );
   }
 
-  Widget _buildHeader(PortfolioData data) {
+  Widget _buildHeader(portfolio_models.PortfolioData data) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 24),
@@ -212,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Widget _buildHeroSection(PortfolioData data) {
+  Widget _buildHeroSection(portfolio_models.PortfolioData data) {
     final experienceYears = _calculateExperience();
     final heroText = data.heroText.replaceAll('{experience}', experienceYears);
 
@@ -273,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildSocialLinksSection(PortfolioData data) {
+  Widget _buildSocialLinksSection(portfolio_models.PortfolioData data) {
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 80),
@@ -301,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildTimelineSection(TimelineData timelineData) {
+  Widget _buildTimelineSection(timeline_models.TimelineData timelineData) {
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
@@ -323,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildFooter(PortfolioData data) {
+  Widget _buildFooter(portfolio_models.PortfolioData data) {
     return Container(
       color: const Color(0xFF1F1F1F),
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
@@ -447,7 +455,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _TimelineCard extends StatefulWidget {
-  final TimelineItem item;
+  final timeline_models.TimelineItem item;
   final bool isLast;
   final int index;
 
@@ -739,7 +747,7 @@ class _TimelineCardState extends State<_TimelineCard> {
 }
 
 class _SocialLinkCard extends StatefulWidget {
-  final SocialLink link;
+  final portfolio_models.SocialLink link;
 
   const _SocialLinkCard({required this.link});
 
