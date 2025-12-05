@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE8F54D)),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color(0xFFE8F54D),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -69,10 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text(
                     snapshot.error.toString(),
-                    style: GoogleFonts.inter(
-                      color: Colors.red,
-                      fontSize: 12,
-                    ),
+                    style: GoogleFonts.inter(color: Colors.red, fontSize: 12),
                   ),
                 ],
               ),
@@ -117,7 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(width: 16),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE8F54D),
                   borderRadius: BorderRadius.circular(20),
@@ -125,10 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      '⚡',
-                      style: TextStyle(fontSize: 14),
-                    ),
+                    const Text('⚡', style: TextStyle(fontSize: 14)),
                     const SizedBox(width: 6),
                     Text(
                       data.availabilityBadge,
@@ -144,7 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () async {
+              final uri = Uri.parse('mailto:harishanbalagandev@gmail.com');
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              }
+            },
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             ),
@@ -195,10 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 160,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: const Color(0xFFE0E0E0),
-                  width: 2,
-                ),
+                border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
                 image: const DecorationImage(
                   image: AssetImage('assets/images/harish.jpg'),
                   fit: BoxFit.cover,
@@ -222,7 +224,10 @@ class _HomeScreenState extends State<HomeScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1A1A1A),
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24),
                 ),
@@ -306,21 +311,64 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 32),
-            OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Color(0xFF4A4A4A), width: 1),
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
+            Text(
+              'Get in touch',
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF9CA3AF),
               ),
-              child: Text(
-                'Send me an email',
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
+            ),
+            const SizedBox(height: 16),
+            InkWell(
+              onTap: () async {
+                await Clipboard.setData(
+                  const ClipboardData(text: 'harishanbalagandev@gmail.com'),
+                );
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Email copied to clipboard',
+                        style: GoogleFonts.inter(),
+                      ),
+                      backgroundColor: const Color(0xFF1A1A1A),
+                      behavior: SnackBarBehavior.floating,
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+              },
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.email_outlined,
+                      size: 18,
+                      color: Color(0xFF9CA3AF),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'harishanbalagandev@gmail.com',
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF9CA3AF),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.content_copy,
+                      size: 16,
+                      color: Color(0xFF9CA3AF),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -384,10 +432,7 @@ class _TimelineItem extends StatefulWidget {
   final WorkExperience experience;
   final bool isLast;
 
-  const _TimelineItem({
-    required this.experience,
-    required this.isLast,
-  });
+  const _TimelineItem({required this.experience, required this.isLast});
 
   @override
   State<_TimelineItem> createState() => _TimelineItemState();
@@ -414,7 +459,10 @@ class _TimelineItemState extends State<_TimelineItem> {
                     alignment: Alignment.centerRight,
                     child: Container(
                       margin: const EdgeInsets.only(right: 32),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 10,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE8F54D),
                         borderRadius: BorderRadius.circular(20),
@@ -444,7 +492,9 @@ class _TimelineItemState extends State<_TimelineItem> {
                         ),
                       ),
                       child: Icon(
-                        widget.experience.icon == 'school' ? Icons.school : Icons.business,
+                        widget.experience.icon == 'school'
+                            ? Icons.school
+                            : Icons.business,
                         size: 28,
                         color: const Color(0xFF1A1A1A),
                       ),
@@ -595,7 +645,9 @@ class _SocialLinkCardState extends State<_SocialLinkCard> {
           curve: Curves.easeInOut,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
           decoration: BoxDecoration(
-            color: _isHovered ? const Color(0xFFEEEEEE) : const Color(0xFFF5F5F5),
+            color: _isHovered
+                ? const Color(0xFFEEEEEE)
+                : const Color(0xFFF5F5F5),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -618,7 +670,9 @@ class _SocialLinkCardState extends State<_SocialLinkCard> {
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
-                      Color(int.parse(widget.link.color.replaceFirst('#', '0xFF'))),
+                      Color(
+                        int.parse(widget.link.color.replaceFirst('#', '0xFF')),
+                      ),
                       BlendMode.srcIn,
                     ),
                   ),
