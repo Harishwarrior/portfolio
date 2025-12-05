@@ -195,12 +195,14 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 160,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey.shade300,
-              ),
-              child: const Icon(
-                Icons.person,
-                size: 80,
-                color: Colors.white,
+                border: Border.all(
+                  color: const Color(0xFFE0E0E0),
+                  width: 2,
+                ),
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/harish.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(height: 48),
@@ -243,130 +245,19 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
-      child: Column(
-        children: [
-          for (int i = 0; i < data.workExperience.length; i++)
-            _buildTimelineItem(data.workExperience[i], i == data.workExperience.length - 1),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimelineItem(WorkExperience experience, bool isLast) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                margin: const EdgeInsets.only(right: 32),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8F54D),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  experience.dateRange,
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF1A1A1A),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Column(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: Column(
             children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: const Color(0xFFE0E0E0),
-                    width: 1,
-                  ),
-                ),
-                child: Icon(
-                  experience.icon == 'school' ? Icons.school : Icons.business,
-                  size: 28,
-                  color: const Color(0xFF1A1A1A),
-                ),
-              ),
-              if (!isLast)
-                Container(
-                  width: 2,
-                  height: 120,
-                  color: const Color(0xFFE0E0E0),
-                ),
-              if (isLast)
-                Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  width: 56,
-                  height: 56,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF1A1A1A),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.arrow_downward,
-                    size: 24,
-                    color: Colors.white,
-                  ),
+              for (int i = 0; i < data.workExperience.length; i++)
+                _TimelineItem(
+                  experience: data.workExperience[i],
+                  isLast: i == data.workExperience.length - 1,
                 ),
             ],
           ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              margin: const EdgeInsets.only(left: 32, bottom: 60),
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F5F5),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    experience.company,
-                    style: GoogleFonts.inter(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF1A1A1A),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    experience.location,
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF6B7280),
-                    ),
-                  ),
-                  if (experience.description.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                    Text(
-                      experience.description,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF6B7280),
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -484,6 +375,191 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _TimelineItem extends StatefulWidget {
+  final WorkExperience experience;
+  final bool isLast;
+
+  const _TimelineItem({
+    required this.experience,
+    required this.isLast,
+  });
+
+  @override
+  State<_TimelineItem> createState() => _TimelineItemState();
+}
+
+class _TimelineItemState extends State<_TimelineItem> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F54D),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        widget.experience.dateRange,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF1A1A1A),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: const Color(0xFFE0E0E0),
+                          width: 1,
+                        ),
+                      ),
+                      child: Icon(
+                        widget.experience.icon == 'school' ? Icons.school : Icons.business,
+                        size: 28,
+                        color: const Color(0xFF1A1A1A),
+                      ),
+                    ),
+                    if (!widget.isLast)
+                      Container(
+                        width: 2,
+                        height: 120,
+                        color: const Color(0xFFE0E0E0),
+                      ),
+                    if (widget.isLast)
+                      Container(
+                        margin: const EdgeInsets.only(top: 40),
+                        width: 56,
+                        height: 56,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF1A1A1A),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.arrow_downward,
+                          size: 24,
+                          color: Colors.white,
+                        ),
+                      ),
+                  ],
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 32, bottom: 60),
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF5F5F5),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.experience.company,
+                          style: GoogleFonts.inter(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF1A1A1A),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.experience.location,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF6B7280),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (_isHovered && widget.experience.description.isNotEmpty)
+            Positioned(
+              right: 0,
+              top: 0,
+              child: AnimatedOpacity(
+                opacity: _isHovered ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  margin: const EdgeInsets.only(left: 32),
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Details',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF1A1A1A),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        widget.experience.description,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF6B7280),
+                          height: 1.6,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

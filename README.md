@@ -1,4 +1,4 @@
-# harishanbalaganportfolio
+# harishanbalagan
 
 A new Flutter project.
 
