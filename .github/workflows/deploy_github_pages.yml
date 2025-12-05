@@ -37,7 +37,7 @@ jobs:
         run: flutter pub get
 
       - name: Build web app with WASM
-        run: flutter build web --release --wasm --base-href "/${{ github.event.repository.name }}/"
+        run: flutter build web --release --wasm --base-href "/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
