@@ -303,15 +303,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Text(
-              data.name,
-              style: GoogleFonts.inter(
-                fontSize: 48,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 32),
-            Text(
               'Get in touch',
               style: GoogleFonts.inter(
                 fontSize: 24,
