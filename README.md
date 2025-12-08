@@ -26,7 +26,7 @@ fvm flutter build web
 
 ## Project Structure (Feature-First Architecture)
 
-```
+```text
 lib/
 ├── main.dart                    # App entry point with Riverpod ProviderScope
 └── features/

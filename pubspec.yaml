@@ -57,6 +57,16 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: ^2.4.11
   dart_mappable_builder: ^4.2.0
+  flutter_gen_runner: ^5.4.0
+
+flutter_gen:
+  output: lib/src/gen/
+  integrations:
+    flutter_svg: true
+  assets:
+    enabled: true
+    outputs:
+      package_parameter_enabled: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -9,6 +9,7 @@ import '../domain/timeline_model.dart' as timeline_models;
 import 'package:intl/intl.dart';
 import '../providers/portfolio_provider.dart';
 import '../providers/timeline_provider.dart';
+import '../gen/assets.gen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,94 +36,27 @@ class _HomeScreenState extends State<HomeScreen> {
           final portfolioAsync = ref.watch(portfolioDataProviderProvider);
 
           return portfolioAsync.when(
-            loading: () => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color(0xFFE8F54D),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Loading Portfolio...',
-                    style: GoogleFonts.inter(
-                      color: const Color(0xFF6B7280),
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            error: (error, stack) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.error_outline, color: Colors.red, size: 48),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Error loading portfolio data',
-                    style: GoogleFonts.inter(color: Colors.red),
-                  ),
-                  Text(
-                    error.toString(),
-                    style: GoogleFonts.inter(color: Colors.red, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
+            loading: () => const _LoadingIndicator(),
+            error: (error, stack) => _ErrorDisplay(error: error),
             data: (data) {
               final portfolioData = data;
               final timelineAsync = ref.watch(timelineDataProviderProvider);
 
               return timelineAsync.when(
-                loading: () => SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Column(
-                    children: [
-                      _buildHeader(portfolioData),
-                      _buildHeroSection(portfolioData),
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(80.0),
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xFFE8F54D),
-                            ),
-                          ),
-                        ),
-                      ),
-                      _buildSocialLinksSection(portfolioData),
-                      _buildFooter(portfolioData),
-                    ],
-                  ),
+                loading: () => _PortfolioLoadingView(
+                  portfolioData: portfolioData,
+                  scrollController: _scrollController,
                 ),
-                error: (error, stack) => SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Column(
-                    children: [
-                      _buildHeader(portfolioData),
-                      _buildHeroSection(portfolioData),
-                      const SizedBox.shrink(),
-                      _buildSocialLinksSection(portfolioData),
-                      _buildFooter(portfolioData),
-                    ],
-                  ),
+                error: (error, stack) => _PortfolioWithTimelineErrorView(
+                  portfolioData: portfolioData,
+                  scrollController: _scrollController,
                 ),
                 data: (timelineData) {
                   final timelineModelData = timelineData;
-                  return SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      children: [
-                        _buildHeader(portfolioData),
-                        _buildHeroSection(portfolioData),
-                        _buildTimelineSection(timelineModelData),
-                        _buildSocialLinksSection(portfolioData),
-                        _buildFooter(portfolioData),
-                      ],
-                    ),
+                  return _PortfolioCompleteView(
+                    portfolioData: portfolioData,
+                    timelineData: timelineModelData,
+                    scrollController: _scrollController,
                   );
                 },
               );
@@ -133,7 +67,185 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHeader(portfolio_models.PortfolioData data) {
+  String _calculateExperience() {
+    final startDate = DateTime(2021, 8); // August 2021
+    final currentDate = DateTime.now();
+
+    int years = currentDate.year - startDate.year;
+    int months = currentDate.month - startDate.month;
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    if (months == 0) {
+      return '$years';
+    } else {
+      return '$years.$months';
+    }
+  }
+}
+
+class _LoadingIndicator extends StatelessWidget {
+  const _LoadingIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE8F54D)),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Loading Portfolio...',
+            style: GoogleFonts.inter(
+              color: const Color(0xFF6B7280),
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ErrorDisplay extends StatelessWidget {
+  final Object error;
+
+  const _ErrorDisplay({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_outline, color: Colors.red, size: 48),
+          const SizedBox(height: 16),
+          Text(
+            'Error loading portfolio data',
+            style: GoogleFonts.inter(color: Colors.red),
+          ),
+          Text(
+            error.toString(),
+            style: GoogleFonts.inter(color: Colors.red, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PortfolioLoadingView extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+  final ScrollController scrollController;
+
+  const _PortfolioLoadingView({
+    required this.portfolioData,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollController,
+      child: Column(
+        children: [
+          _Header(portfolioData: portfolioData),
+          _HeroSection(
+            portfolioData: portfolioData,
+            experienceCalculator: () =>
+                _HomeScreenState()._calculateExperience(),
+          ),
+          const Center(
+            child: Padding(
+              padding: EdgeInsets.all(80.0),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE8F54D)),
+              ),
+            ),
+          ),
+          _SocialLinksSection(portfolioData: portfolioData),
+          _Footer(portfolioData: portfolioData),
+        ],
+      ),
+    );
+  }
+}
+
+class _PortfolioWithTimelineErrorView extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+  final ScrollController scrollController;
+
+  const _PortfolioWithTimelineErrorView({
+    required this.portfolioData,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollController,
+      child: Column(
+        children: [
+          _Header(portfolioData: portfolioData),
+          _HeroSection(
+            portfolioData: portfolioData,
+            experienceCalculator: () =>
+                _HomeScreenState()._calculateExperience(),
+          ),
+          const SizedBox.shrink(),
+          _SocialLinksSection(portfolioData: portfolioData),
+          _Footer(portfolioData: portfolioData),
+        ],
+      ),
+    );
+  }
+}
+
+class _PortfolioCompleteView extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+  final timeline_models.TimelineData timelineData;
+  final ScrollController scrollController;
+
+  const _PortfolioCompleteView({
+    required this.portfolioData,
+    required this.timelineData,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: scrollController,
+      child: Column(
+        children: [
+          _Header(portfolioData: portfolioData),
+          _HeroSection(
+            portfolioData: portfolioData,
+            experienceCalculator: () =>
+                _HomeScreenState()._calculateExperience(),
+          ),
+          _TimelineSection(timelineData: timelineData),
+          _SocialLinksSection(portfolioData: portfolioData),
+          _Footer(portfolioData: portfolioData),
+        ],
+      ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+
+  const _Header({required this.portfolioData});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 24),
@@ -143,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: [
               Text(
-                data.name,
+                portfolioData.name,
                 style: GoogleFonts.inter(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
@@ -166,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Text('⚡', style: TextStyle(fontSize: 14)),
                     const SizedBox(width: 6),
                     Text(
-                      data.availabilityBadge,
+                      portfolioData.availabilityBadge,
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -200,29 +312,24 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  String _calculateExperience() {
-    final startDate = DateTime(2021, 8); // August 2021
-    final currentDate = DateTime.now();
+class _HeroSection extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+  final String Function() experienceCalculator;
 
-    int years = currentDate.year - startDate.year;
-    int months = currentDate.month - startDate.month;
+  const _HeroSection({
+    required this.portfolioData,
+    required this.experienceCalculator,
+  });
 
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    if (months == 0) {
-      return '$years';
-    } else {
-      return '$years.$months';
-    }
-  }
-
-  Widget _buildHeroSection(portfolio_models.PortfolioData data) {
-    final experienceYears = _calculateExperience();
-    final heroText = data.heroText.replaceAll('{experience}', experienceYears);
+  @override
+  Widget build(BuildContext context) {
+    final experienceYears = experienceCalculator();
+    final heroText = portfolioData.heroText.replaceAll(
+      '{experience}',
+      experienceYears,
+    );
 
     return Container(
       color: const Color(0xFFF8F8F8),
@@ -236,8 +343,8 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/harish.jpg'),
+                image: DecorationImage(
+                  image: AssetImage(Assets.images.harish.path),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -280,8 +387,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  Widget _buildSocialLinksSection(portfolio_models.PortfolioData data) {
+class _SocialLinksSection extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+
+  const _SocialLinksSection({required this.portfolioData});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 80),
@@ -300,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
             spacing: 16,
             runSpacing: 16,
             alignment: WrapAlignment.center,
-            children: data.socialLinks.map((link) {
+            children: portfolioData.socialLinks.map((link) {
               return _SocialLinkCard(link: link);
             }).toList(),
           ),
@@ -308,8 +422,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  Widget _buildTimelineSection(timeline_models.TimelineData timelineData) {
+class _TimelineSection extends StatelessWidget {
+  final timeline_models.TimelineData timelineData;
+
+  const _TimelineSection({required this.timelineData});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
@@ -330,8 +451,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  Widget _buildFooter(portfolio_models.PortfolioData data) {
+class _Footer extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
+
+  const _Footer({required this.portfolioData});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFF1F1F1F),
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
@@ -435,7 +563,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        data.availabilityMessage,
+                        portfolioData.availabilityMessage,
                         style: GoogleFonts.inter(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -758,6 +886,19 @@ class _SocialLinkCard extends StatefulWidget {
 class _SocialLinkCardState extends State<_SocialLinkCard> {
   bool _isHovered = false;
 
+  SvgGenImage _getSocialIcon(String iconName) {
+    switch (iconName) {
+      case 'github':
+        return Assets.icons.github;
+      case 'linkedin':
+        return Assets.icons.linkedin;
+      case 'x':
+        return Assets.icons.x;
+      default:
+        return Assets.icons.github; // fallback
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -796,8 +937,7 @@ class _SocialLinkCardState extends State<_SocialLinkCard> {
                   scale: _isHovered ? 1.1 : 1.0,
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
-                  child: SvgPicture.asset(
-                    'assets/icons/${widget.link.icon}.svg',
+                  child: _getSocialIcon(widget.link.icon).svg(
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
