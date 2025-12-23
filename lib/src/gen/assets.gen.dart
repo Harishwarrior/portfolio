@@ -18,10 +18,10 @@ class $AssetsDataGen {
   const $AssetsDataGen();
 
   /// File path: assets/data/portfolio.json
-  String get portfolio => 'packages/harishanbalagan/assets/data/portfolio.json';
+  String get portfolio => 'assets/data/portfolio.json';
 
   /// File path: assets/data/timeline.json
-  String get timeline => 'packages/harishanbalagan/assets/data/timeline.json';
+  String get timeline => 'assets/data/timeline.json';
 
   /// List of all assets
   List<String> get values => [portfolio, timeline];
@@ -56,8 +56,6 @@ class $AssetsImagesGen {
 class Assets {
   const Assets._();
 
-  static const String package = 'harishanbalagan';
-
   static const $AssetsDataGen data = $AssetsDataGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
@@ -72,8 +70,6 @@ class AssetGenImage {
   });
 
   final String _assetName;
-
-  static const String package = 'harishanbalagan';
 
   final Size? size;
   final Set<String> flavors;
@@ -99,8 +95,7 @@ class AssetGenImage {
     bool matchTextDirection = false,
     bool gaplessPlayback = true,
     bool isAntiAlias = false,
-    @Deprecated('Do not specify package for a generated library asset')
-    String? package = package,
+    String? package,
     FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
@@ -133,17 +128,13 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    @Deprecated('Do not specify package for a generated library asset')
-    String? package = package,
-  }) {
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
     return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
 
-  String get keyName => 'packages/harishanbalagan/$_assetName';
+  String get keyName => _assetName;
 }
 
 class AssetGenImageAnimation {
@@ -170,14 +161,11 @@ class SvgGenImage {
   final Set<String> flavors;
   final bool _isVecFormat;
 
-  static const String package = 'harishanbalagan';
-
   _svg.SvgPicture svg({
     Key? key,
     bool matchTextDirection = false,
     AssetBundle? bundle,
-    @Deprecated('Do not specify package for a generated library asset')
-    String? package = package,
+    String? package,
     double? width,
     double? height,
     BoxFit fit = BoxFit.contain,
@@ -232,5 +220,5 @@ class SvgGenImage {
 
   String get path => _assetName;
 
-  String get keyName => 'packages/harishanbalagan/$_assetName';
+  String get keyName => _assetName;
 }

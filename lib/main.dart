@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 import 'src/presentation/home_screen.dart';
+import 'src/domain/portfolio_model.dart';
+import 'src/domain/timeline_model.dart';
 
 void main() {
+  // Initialize dart_mappable mappers
+  MapperContainer.globals.use(PortfolioDataMapper.ensureInitialized());
+  MapperContainer.globals.use(WorkExperienceMapper.ensureInitialized());
+  MapperContainer.globals.use(SocialLinkMapper.ensureInitialized());
+  MapperContainer.globals.use(TimelineDataMapper.ensureInitialized());
+  MapperContainer.globals.use(TimelineItemMapper.ensureInitialized());
+
   runApp(const ProviderScope(child: PortfolioApp()));
 }
 

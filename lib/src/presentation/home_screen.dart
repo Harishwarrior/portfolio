@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
-import '../domain/timeline_model.dart' as timeline_models;
-import 'package:intl/intl.dart';
 import '../providers/portfolio_provider.dart';
-import '../providers/timeline_provider.dart';
 import '../gen/assets.gen.dart';
+import 'journey_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,27 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
           return portfolioAsync.when(
             loading: () => const _LoadingIndicator(),
             error: (error, stack) => _ErrorDisplay(error: error),
-            data: (data) {
-              final portfolioData = data;
-              final timelineAsync = ref.watch(timelineDataProviderProvider);
-
-              return timelineAsync.when(
-                loading: () => _PortfolioLoadingView(
-                  portfolioData: portfolioData,
-                  scrollController: _scrollController,
-                ),
-                error: (error, stack) => _PortfolioWithTimelineErrorView(
-                  portfolioData: portfolioData,
-                  scrollController: _scrollController,
-                ),
-                data: (timelineData) {
-                  final timelineModelData = timelineData;
-                  return _PortfolioCompleteView(
-                    portfolioData: portfolioData,
-                    timelineData: timelineModelData,
-                    scrollController: _scrollController,
-                  );
-                },
+            data: (portfolioData) {
+              return _PortfolioView(
+                portfolioData: portfolioData,
+                scrollController: _scrollController,
               );
             },
           );
@@ -140,11 +120,11 @@ class _ErrorDisplay extends StatelessWidget {
   }
 }
 
-class _PortfolioLoadingView extends StatelessWidget {
+class _PortfolioView extends StatelessWidget {
   final portfolio_models.PortfolioData portfolioData;
   final ScrollController scrollController;
 
-  const _PortfolioLoadingView({
+  const _PortfolioView({
     required this.portfolioData,
     required this.scrollController,
   });
@@ -161,76 +141,7 @@ class _PortfolioLoadingView extends StatelessWidget {
             experienceCalculator: () =>
                 _HomeScreenState()._calculateExperience(),
           ),
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(80.0),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE8F54D)),
-              ),
-            ),
-          ),
-          _SocialLinksSection(portfolioData: portfolioData),
-          _Footer(portfolioData: portfolioData),
-        ],
-      ),
-    );
-  }
-}
-
-class _PortfolioWithTimelineErrorView extends StatelessWidget {
-  final portfolio_models.PortfolioData portfolioData;
-  final ScrollController scrollController;
-
-  const _PortfolioWithTimelineErrorView({
-    required this.portfolioData,
-    required this.scrollController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          _HeroSection(
-            portfolioData: portfolioData,
-            experienceCalculator: () =>
-                _HomeScreenState()._calculateExperience(),
-          ),
-          const SizedBox.shrink(),
-          _SocialLinksSection(portfolioData: portfolioData),
-          _Footer(portfolioData: portfolioData),
-        ],
-      ),
-    );
-  }
-}
-
-class _PortfolioCompleteView extends StatelessWidget {
-  final portfolio_models.PortfolioData portfolioData;
-  final timeline_models.TimelineData timelineData;
-  final ScrollController scrollController;
-
-  const _PortfolioCompleteView({
-    required this.portfolioData,
-    required this.timelineData,
-    required this.scrollController,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          _HeroSection(
-            portfolioData: portfolioData,
-            experienceCalculator: () =>
-                _HomeScreenState()._calculateExperience(),
-          ),
-          _TimelineSection(timelineData: timelineData),
+          _ProjectShowcaseSection(portfolioData: portfolioData),
           _SocialLinksSection(portfolioData: portfolioData),
           _Footer(portfolioData: portfolioData),
         ],
@@ -362,7 +273,13 @@ class _HeroSection extends StatelessWidget {
             ),
             const SizedBox(height: 80),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const JourneyScreen(),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1A1A1A),
                 foregroundColor: Colors.white,
@@ -424,30 +341,42 @@ class _SocialLinksSection extends StatelessWidget {
   }
 }
 
-class _TimelineSection extends StatelessWidget {
-  final timeline_models.TimelineData timelineData;
+class _ProjectShowcaseSection extends StatelessWidget {
+  final portfolio_models.PortfolioData portfolioData;
 
-  const _TimelineSection({required this.timelineData});
+  const _ProjectShowcaseSection({required this.portfolioData});
 
   @override
   Widget build(BuildContext context) {
+    // Filter only work experiences (not education)
+    final projects = portfolioData.workExperience
+        .where((exp) => exp.type == 'work')
+        .take(3)
+        .toList();
+
     return Container(
       color: const Color(0xFFF8F8F8),
       padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 900),
-          child: Column(
-            children: [
-              for (int i = 0; i < timelineData.timelineItems.length; i++)
-                _TimelineCard(
-                  item: timelineData.timelineItems[i],
-                  isLast: i == timelineData.timelineItems.length - 1,
-                  index: i,
-                ),
-            ],
+      child: Column(
+        children: [
+          Text(
+            'Recent Work',
+            style: GoogleFonts.inter(
+              fontSize: 48,
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF1A1A1A),
+            ),
           ),
-        ),
+          const SizedBox(height: 80),
+          Wrap(
+            spacing: 24,
+            runSpacing: 24,
+            alignment: WrapAlignment.center,
+            children: projects.map((project) {
+              return _ProjectCard(project: project);
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
@@ -582,293 +511,106 @@ class _Footer extends StatelessWidget {
   }
 }
 
-class _TimelineCard extends StatefulWidget {
-  final timeline_models.TimelineItem item;
-  final bool isLast;
-  final int index;
+class _ProjectCard extends StatefulWidget {
+  final portfolio_models.WorkExperience project;
 
-  const _TimelineCard({
-    required this.item,
-    required this.isLast,
-    required this.index,
-  });
+  const _ProjectCard({required this.project});
 
   @override
-  State<_TimelineCard> createState() => _TimelineCardState();
+  State<_ProjectCard> createState() => _ProjectCardState();
 }
 
-class _TimelineCardState extends State<_TimelineCard> {
+class _ProjectCardState extends State<_ProjectCard> {
   bool _isHovered = false;
-  final GlobalKey _contentKey = GlobalKey();
-  double _contentHeight = 0;
-
-  IconData _getCategoryIcon(String category) {
-    switch (category) {
-      case 'work':
-        return Icons.work;
-      case 'learning':
-        return Icons.school;
-      case 'opensource':
-        return Icons.code;
-      case 'community':
-        return Icons.groups;
-      case 'content':
-        return Icons.article;
-      case 'event':
-        return Icons.event;
-      case 'speaking':
-        return Icons.mic;
-      case 'experiment':
-        return Icons.science;
-      case 'achievement':
-        return Icons.emoji_events;
-      case 'milestone':
-        return Icons.flag;
-      case 'research':
-        return Icons.search;
-      default:
-        return Icons.circle;
-    }
-  }
-
-  String _formatDate(String dateStr) {
-    try {
-      final date = DateTime.parse(dateStr);
-      return DateFormat('MMM d, yyyy').format(date);
-    } catch (e) {
-      return dateStr;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _updateHeight());
-  }
-
-  void _updateHeight() {
-    final RenderBox? renderBox =
-        _contentKey.currentContext?.findRenderObject() as RenderBox?;
-    if (renderBox != null && mounted) {
-      setState(() {
-        _contentHeight = renderBox.size.height;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final categoryIcon = _getCategoryIcon(widget.item.category);
-    // Calculate line height: content height + gap between items
-    final double lineHeight = _contentHeight > 0
-        ? (_contentHeight + 60).toDouble()
-        : 100.0;
-
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 32),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE8F54D),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      _formatDate(widget.item.date),
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF1A1A1A),
-                      ),
-                    ),
-                  ),
-                ),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        width: 360,
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: _isHovered ? 0.15 : 0.08),
+              blurRadius: _isHovered ? 30 : 20,
+              offset: Offset(0, _isHovered ? 12 : 8),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF5F5F5),
+                borderRadius: BorderRadius.circular(12),
               ),
-              SizedBox(
-                width: 56,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFFE0E0E0),
-                          width: 1,
-                        ),
-                      ),
-                      child: Icon(
-                        categoryIcon,
-                        size: 28,
-                        color: const Color(0xFF1A1A1A),
-                      ),
-                    ),
-                    if (!widget.isLast)
-                      Container(
-                        width: 2,
-                        height: lineHeight,
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        color: const Color(0xFFE0E0E0),
-                      ),
-                    if (widget.isLast)
-                      Container(
-                        margin: const EdgeInsets.only(top: 40),
-                        width: 56,
-                        height: 56,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF1A1A1A),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.arrow_downward,
-                          size: 24,
-                          color: Colors.white,
-                        ),
-                      ),
-                  ],
-                ),
+              child: Icon(
+                widget.project.icon == 'work' ? Icons.business : Icons.school,
+                size: 28,
+                color: const Color(0xFF1A1A1A),
               ),
-              Expanded(
-                flex: 3,
-                child: Container(
-                  key: _contentKey,
-                  margin: const EdgeInsets.only(left: 32, bottom: 60),
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F5),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.item.title,
-                        style: GoogleFonts.inter(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1A1A1A),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        widget.item.description,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF6B7280),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              widget.project.company,
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF1A1A1A),
               ),
-            ],
-          ),
-          if (_isHovered && widget.item.links.isNotEmpty)
-            Positioned(
-              right: 0,
-              top: 0,
-              child: AnimatedOpacity(
-                opacity: _isHovered ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 200),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInOut,
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  margin: const EdgeInsets.only(left: 32),
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Links',
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1A1A1A),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: widget.item.links.map((link) {
-                          return InkWell(
-                            onTap: () async {
-                              final uri = Uri.parse(link);
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(uri);
-                              }
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFE8F54D),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
-                                    Icons.link,
-                                    size: 14,
-                                    color: Color(0xFF1A1A1A),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    'View Post',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF1A1A1A),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              widget.project.location,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF6B7280),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE8F54D),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                widget.project.dateRange,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF1A1A1A),
                 ),
               ),
             ),
-        ],
+            if (widget.project.description.isNotEmpty) ...[
+              const SizedBox(height: 16),
+              Text(
+                widget.project.description,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF6B7280),
+                  height: 1.6,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

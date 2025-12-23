@@ -66,7 +66,7 @@ flutter_gen:
   assets:
     enabled: true
     outputs:
-      package_parameter_enabled: true
+      package_parameter_enabled: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
