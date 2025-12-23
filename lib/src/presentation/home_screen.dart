@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
 import '../providers/portfolio_provider.dart';
 import '../gen/assets.gen.dart';
-import 'journey_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -201,23 +201,42 @@ class _Header extends StatelessWidget {
               ),
             ],
           ),
-          OutlinedButton(
-            onPressed: () async {
-              final uri = Uri.parse('mailto:harishanbalagandev@gmail.com');
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
-              }
-            },
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            ),
-            child: Text(
-              'Send me an email',
-              style: GoogleFonts.inter(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
+          Row(
+            children: [
+              TextButton(
+                onPressed: () => context.go('/journey'),
+                child: Text(
+                  'Journey',
+                  style: GoogleFonts.inter(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xFF1A1A1A),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              OutlinedButton(
+                onPressed: () async {
+                  final uri = Uri.parse('mailto:harishanbalagandev@gmail.com');
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                ),
+                child: Text(
+                  'Send me an email',
+                  style: GoogleFonts.inter(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -273,13 +292,7 @@ class _HeroSection extends StatelessWidget {
             ),
             const SizedBox(height: 80),
             ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const JourneyScreen(),
-                  ),
-                );
-              },
+              onPressed: () => context.go('/journey'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1A1A1A),
                 foregroundColor: Colors.white,

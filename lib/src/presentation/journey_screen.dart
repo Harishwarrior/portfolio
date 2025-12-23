@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
 import '../domain/timeline_model.dart' as timeline_models;
 import 'package:intl/intl.dart';
@@ -221,7 +222,7 @@ class _Header extends StatelessWidget {
           Row(
             children: [
               InkWell(
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => context.go('/'),
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

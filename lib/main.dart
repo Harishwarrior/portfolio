@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dart_mappable/dart_mappable.dart';
-import 'src/presentation/home_screen.dart';
 import 'src/domain/portfolio_model.dart';
 import 'src/domain/timeline_model.dart';
+
+import 'src/routing/app_router.dart';
 
 void main() {
   // Initialize dart_mappable mappers
@@ -17,12 +18,15 @@ void main() {
   runApp(const ProviderScope(child: PortfolioApp()));
 }
 
-class PortfolioApp extends StatelessWidget {
+class PortfolioApp extends ConsumerWidget {
   const PortfolioApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+
+    return MaterialApp.router(
+      routerConfig: router,
       title: 'Harish Anbalagan - Portfolio',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -84,7 +88,6 @@ class PortfolioApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const HomeScreen(),
     );
   }
 }
