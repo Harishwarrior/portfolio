@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
 import '../domain/timeline_model.dart' as timeline_models;
 import 'package:intl/intl.dart';
@@ -130,21 +131,25 @@ class _JourneyLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return WebSmoothScroll(
       controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(80.0),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE8F54D)),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: scrollController,
+        child: Column(
+          children: [
+            _Header(portfolioData: portfolioData),
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(80.0),
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE8F54D)),
+                ),
               ),
             ),
-          ),
-          _Footer(portfolioData: portfolioData),
-        ],
+            _Footer(portfolioData: portfolioData),
+          ],
+        ),
       ),
     );
   }
@@ -163,17 +168,21 @@ class _JourneyErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return WebSmoothScroll(
       controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          Padding(
-            padding: const EdgeInsets.all(80.0),
-            child: _ErrorDisplay(error: error),
-          ),
-          _Footer(portfolioData: portfolioData),
-        ],
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: scrollController,
+        child: Column(
+          children: [
+            _Header(portfolioData: portfolioData),
+            Padding(
+              padding: const EdgeInsets.all(80.0),
+              child: _ErrorDisplay(error: error),
+            ),
+            _Footer(portfolioData: portfolioData),
+          ],
+        ),
       ),
     );
   }
@@ -192,15 +201,19 @@ class _JourneyCompleteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return WebSmoothScroll(
       controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          _JourneyHeroSection(),
-          _TimelineSection(timelineData: timelineData),
-          _Footer(portfolioData: portfolioData),
-        ],
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: scrollController,
+        child: Column(
+          children: [
+            _Header(portfolioData: portfolioData),
+            _JourneyHeroSection(),
+            _TimelineSection(timelineData: timelineData),
+            _Footer(portfolioData: portfolioData),
+          ],
+        ),
       ),
     );
   }

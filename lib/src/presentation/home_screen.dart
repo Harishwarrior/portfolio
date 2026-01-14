@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
 import '../providers/portfolio_provider.dart';
 import '../gen/assets.gen.dart';
@@ -131,20 +132,24 @@ class _PortfolioView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return WebSmoothScroll(
       controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          _HeroSection(
-            portfolioData: portfolioData,
-            experienceCalculator: () =>
-                _HomeScreenState()._calculateExperience(),
-          ),
-          _ProjectShowcaseSection(portfolioData: portfolioData),
-          _SocialLinksSection(portfolioData: portfolioData),
-          _Footer(portfolioData: portfolioData),
-        ],
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: scrollController,
+        child: Column(
+          children: [
+            _Header(portfolioData: portfolioData),
+            _HeroSection(
+              portfolioData: portfolioData,
+              experienceCalculator: () =>
+                  _HomeScreenState()._calculateExperience(),
+            ),
+            _ProjectShowcaseSection(portfolioData: portfolioData),
+            _SocialLinksSection(portfolioData: portfolioData),
+            _Footer(portfolioData: portfolioData),
+          ],
+        ),
       ),
     );
   }
