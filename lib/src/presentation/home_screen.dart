@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
 import '../providers/portfolio_provider.dart';
 import '../gen/assets.gen.dart';
@@ -16,6 +17,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static String calculateExperience() {
+    final startDate = DateTime(2021, 8); // August 2021
+    final currentDate = DateTime.now();
+
+    int years = currentDate.year - startDate.year;
+    int months = currentDate.month - startDate.month;
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    if (months == 0) {
+      return '$years';
+    } else {
+      return '$years.$months';
+    }
+  }
+
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -45,25 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  String _calculateExperience() {
-    final startDate = DateTime(2021, 8); // August 2021
-    final currentDate = DateTime.now();
-
-    int years = currentDate.year - startDate.year;
-    int months = currentDate.month - startDate.month;
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    if (months == 0) {
-      return '$years';
-    } else {
-      return '$years.$months';
-    }
   }
 }
 
@@ -131,20 +132,23 @@ class _PortfolioView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return WebSmoothScroll(
       controller: scrollController,
-      child: Column(
-        children: [
-          _Header(portfolioData: portfolioData),
-          _HeroSection(
-            portfolioData: portfolioData,
-            experienceCalculator: () =>
-                _HomeScreenState()._calculateExperience(),
-          ),
-          _ProjectShowcaseSection(portfolioData: portfolioData),
-          _SocialLinksSection(portfolioData: portfolioData),
-          _Footer(portfolioData: portfolioData),
-        ],
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: scrollController,
+        child: Column(
+          children: [
+            _Header(portfolioData: portfolioData),
+            _HeroSection(
+              portfolioData: portfolioData,
+              experienceCalculator: _HomeScreenState.calculateExperience,
+            ),
+            _ProjectShowcaseSection(portfolioData: portfolioData),
+            _SocialLinksSection(portfolioData: portfolioData),
+            _Footer(portfolioData: portfolioData),
+          ],
+        ),
       ),
     );
   }
