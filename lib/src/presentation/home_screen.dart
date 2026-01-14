@@ -17,6 +17,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static String calculateExperience() {
+    final startDate = DateTime(2021, 8); // August 2021
+    final currentDate = DateTime.now();
+
+    int years = currentDate.year - startDate.year;
+    int months = currentDate.month - startDate.month;
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    if (months == 0) {
+      return '$years';
+    } else {
+      return '$years.$months';
+    }
+  }
+
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -46,25 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  String _calculateExperience() {
-    final startDate = DateTime(2021, 8); // August 2021
-    final currentDate = DateTime.now();
-
-    int years = currentDate.year - startDate.year;
-    int months = currentDate.month - startDate.month;
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    if (months == 0) {
-      return '$years';
-    } else {
-      return '$years.$months';
-    }
   }
 }
 
@@ -142,8 +142,7 @@ class _PortfolioView extends StatelessWidget {
             _Header(portfolioData: portfolioData),
             _HeroSection(
               portfolioData: portfolioData,
-              experienceCalculator: () =>
-                  _HomeScreenState()._calculateExperience(),
+              experienceCalculator: _HomeScreenState.calculateExperience,
             ),
             _ProjectShowcaseSection(portfolioData: portfolioData),
             _SocialLinksSection(portfolioData: portfolioData),
