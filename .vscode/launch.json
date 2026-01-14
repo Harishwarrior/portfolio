@@ -5,10 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "thrifty_grocery_website (Flutter)",
-            "program": "lib/main.dart",
+            "name": "portfolio",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "portfolio (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "portfolio (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
     ]
 }

@@ -6,49 +6,57 @@
   "profileImage": "assets/images/profile.jpg",
   "workExperience": [
     {
-      "company": "Google, Inc.",
-      "location": "Mountain View, California",
-      "dateRange": "Oct 2021 – Nov 2024",
-      "description": "My role was ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dapibus magna nisi, vitae lacinia nisl laoreet posuere.",
+      "company": "E2 Infosystems Ltd",
+      "location": "Chennai, Tamil Nadu, India",
+      "dateRange": "Aug 2023 – Present",
+      "description": "Implemented portrait mode UI for tvOS, reduced crash rate to 0.2%, revamped architecture to feature-first, conducted talks on MCP, LLM, and mobile best practices.",
       "icon": "work",
       "type": "work"
     },
     {
-      "company": "Meta, Inc.",
+      "company": "Stealth Startup",
+      "location": "Chennai, Tamil Nadu, India",
+      "dateRange": "Jul 2023 – Jul 2023",
+      "description": "Designed and implemented enterprise applications that helped the client acquire 3 new customers.",
+      "icon": "work",
+      "type": "work"
+    },
+    {
+      "company": "Thiran Technologies",
+      "location": "Chennai, Tamil Nadu, India",
+      "dateRange": "Aug 2021 – Jul 2023",
+      "description": "Achieved 8ms UI response time, reduced app size by 30%, integrated Dialogflow chatbot, added smartwatch compatibility, and crafted a custom UI kit used across all internal products.",
+      "icon": "work",
+      "type": "work"
+    },
+    {
+      "company": "Freelance",
       "location": "Remote",
-      "dateRange": "Aug 2019 – Oct 2021",
-      "description": "",
+      "dateRange": "Apr 2020 - Jun 2021",
+      "description": "Built products from MVP to app stores using Flutter and multiple back-end frameworks. Migrated legacy projects to modern frameworks.",
       "icon": "work",
       "type": "work"
     },
     {
-      "company": "Microsoft",
-      "location": "Remote",
-      "dateRange": "Feb 2019 – June 2019",
-      "description": "UI/UX Design for the upcoming platform of Microsoft.",
+      "company": "INFOGRO TECHNOLOGY",
+      "location": "Chennai, Tamil Nadu, India",
+      "dateRange": "Nov 2019 - Nov 2019",
+      "description": "Internship focused on RPA and Artificial Intelligence. Created a project to automate Excel sheet management.",
       "icon": "work",
       "type": "work"
     },
     {
-      "company": "Amazon",
-      "location": "Seattle, Washington",
-      "dateRange": "May 2016 – Jan 2019",
-      "description": "",
-      "icon": "work",
-      "type": "work"
-    },
-    {
-      "company": "Stanford University",
-      "location": "Masters in Computer Science",
-      "dateRange": "Sep 2013 – July 2015",
+      "company": "Arasu Engineering College",
+      "location": "Bachelor's degree, Computer Engineering",
+      "dateRange": "Sep 2017 - Jul 2021",
       "description": "",
       "icon": "school",
       "type": "education"
     },
     {
-      "company": "UC Berkeley",
-      "location": "Bachelors in Software Engineering",
-      "dateRange": "Sep 2010 – July 2013",
+      "company": "Vallalar Higher Secondary School",
+      "location": "Higher Secondary Education",
+      "dateRange": "Apr 2002 - Apr 2017",
       "description": "",
       "icon": "school",
       "type": "education"
