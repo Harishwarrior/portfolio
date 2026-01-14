@@ -692,9 +692,12 @@ class _TimelineCardState extends State<_TimelineCard> {
                           children: widget.item.links.map((link) {
                             return InkWell(
                               onTap: () async {
-                                final uri = Uri.parse(link);
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri);
+                                final uri = Uri.tryParse(link);
+                                if (uri != null && await canLaunchUrl(uri)) {
+                                  await launchUrl(
+                                    uri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
                                 }
                               },
                               borderRadius: BorderRadius.circular(8),
