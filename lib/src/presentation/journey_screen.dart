@@ -511,7 +511,6 @@ class _TimelineCard extends StatefulWidget {
 }
 
 class _TimelineCardState extends State<_TimelineCard> {
-  bool _isHovered = false;
   final GlobalKey _contentKey = GlobalKey();
   double _contentHeight = 0;
 
@@ -576,10 +575,7 @@ class _TimelineCardState extends State<_TimelineCard> {
         ? (_contentHeight + 60).toDouble()
         : 100.0;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: Stack(
+    return Stack(
         clipBehavior: Clip.none,
         children: [
           Row(
@@ -688,100 +684,63 @@ class _TimelineCardState extends State<_TimelineCard> {
                           color: const Color(0xFF6B7280),
                         ),
                       ),
+                      if (widget.item.links.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: widget.item.links.map((link) {
+                            return InkWell(
+                              onTap: () async {
+                                final uri = Uri.tryParse(link);
+                                if (uri != null && await canLaunchUrl(uri)) {
+                                  await launchUrl(
+                                    uri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                }
+                              },
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFE8F54D),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.link,
+                                      size: 14,
+                                      color: Color(0xFF1A1A1A),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      'View Post',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: const Color(0xFF1A1A1A),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ],
                   ),
                 ),
               ),
             ],
           ),
-          if (_isHovered && widget.item.links.isNotEmpty)
-            Positioned(
-              right: 0,
-              top: 0,
-              child: AnimatedOpacity(
-                opacity: _isHovered ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 200),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInOut,
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  margin: const EdgeInsets.only(left: 32),
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Links',
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF1A1A1A),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: widget.item.links.map((link) {
-                          return InkWell(
-                            onTap: () async {
-                              final uri = Uri.parse(link);
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(uri);
-                              }
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFE8F54D),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(
-                                    Icons.link,
-                                    size: 14,
-                                    color: Color(0xFF1A1A1A),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    'View Post',
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: const Color(0xFF1A1A1A),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
         ],
-      ),
-    );
+      );
   }
 }
