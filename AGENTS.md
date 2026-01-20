@@ -40,7 +40,7 @@ fvm flutter test test/widget_test.dart
 
 ### Directory Structure
 
-```
+```text
 lib/
 ├── main.dart                    # App entry point, theme configuration
 ├── models/

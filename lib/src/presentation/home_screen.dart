@@ -8,6 +8,7 @@ import 'package:web_smooth_scroll/web_smooth_scroll.dart';
 import '../domain/portfolio_model.dart' as portfolio_models;
 import '../providers/portfolio_provider.dart';
 import '../gen/assets.gen.dart';
+import '../utils/responsive_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -161,89 +162,165 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final horizontalPadding = ResponsiveUtils.getHorizontalPadding(context);
+    final nameFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 18,
+      desktop: 24,
+    );
+
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 24),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Text(
-                portfolioData.name,
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF1A1A1A),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 24),
+      child: isMobile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  portfolioData.name,
+                  style: GoogleFonts.inter(
+                    fontSize: nameFontSize,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF1A1A1A),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFE8F54D),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                const SizedBox(height: 12),
+                Row(
                   children: [
-                    const Text('⚡', style: TextStyle(fontSize: 14)),
-                    const SizedBox(width: 6),
-                    Text(
-                      portfolioData.availabilityBadge,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF1A1A1A),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F54D),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('⚡', style: TextStyle(fontSize: 14)),
+                          const SizedBox(width: 6),
+                          Text(
+                            portfolioData.availabilityBadge,
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF1A1A1A),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          final uri = Uri.parse('mailto:harishanbalagandev@gmail.com');
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          }
+                        },
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                        ),
+                        child: Text(
+                          'Email',
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () => context.go('/journey'),
-                child: Text(
-                  'Journey',
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xFF1A1A1A),
-                  ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      portfolioData.name,
+                      style: GoogleFonts.inter(
+                        fontSize: nameFontSize,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF1A1A1A),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F54D),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text('⚡', style: TextStyle(fontSize: 14)),
+                          const SizedBox(width: 6),
+                          Text(
+                            portfolioData.availabilityBadge,
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF1A1A1A),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 16),
-              OutlinedButton(
-                onPressed: () async {
-                  final uri = Uri.parse('mailto:harishanbalagandev@gmail.com');
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  }
-                },
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () => context.go('/journey'),
+                      child: Text(
+                        'Journey',
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF1A1A1A),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    OutlinedButton(
+                      onPressed: () async {
+                        final uri = Uri.parse('mailto:harishanbalagandev@gmail.com');
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        }
+                      },
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 16,
+                        ),
+                      ),
+                      child: Text(
+                        'Send me an email',
+                        style: GoogleFonts.inter(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text(
-                  'Send me an email',
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }
@@ -264,16 +341,28 @@ class _HeroSection extends StatelessWidget {
       '{experience}',
       experienceYears,
     );
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final verticalPadding = ResponsiveUtils.getVerticalPadding(
+      context,
+      mobile: 60,
+      desktop: 120,
+    );
+    final heroFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 32,
+      desktop: 48,
+    );
+    final profileSize = isMobile ? 120.0 : 160.0;
 
     return Container(
       color: const Color(0xFFF8F8F8),
-      padding: const EdgeInsets.symmetric(vertical: 120),
+      padding: EdgeInsets.symmetric(vertical: verticalPadding),
       child: Center(
         child: Column(
           children: [
             Container(
-              width: 160,
-              height: 160,
+              width: profileSize,
+              height: profileSize,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: const Color(0xFFE0E0E0), width: 2),
@@ -284,15 +373,18 @@ class _HeroSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 48),
-            Text(
-              heroText,
-              style: GoogleFonts.inter(
-                fontSize: 48,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF1A1A1A),
-                height: 1.3,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 0),
+              child: Text(
+                heroText,
+                style: GoogleFonts.inter(
+                  fontSize: heroFontSize,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF1A1A1A),
+                  height: 1.3,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 80),
             ElevatedButton(
@@ -330,15 +422,22 @@ class _SocialLinksSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final horizontalPadding = ResponsiveUtils.getHorizontalPadding(context);
+    final titleFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 32,
+      desktop: 48,
+    );
+
     return Container(
       color: const Color(0xFFF8F8F8),
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 80),
+      padding: EdgeInsets.symmetric(vertical: 60, horizontal: horizontalPadding),
       child: Column(
         children: [
           Text(
             'Find me elsewhere',
             style: GoogleFonts.inter(
-              fontSize: 48,
+              fontSize: titleFontSize,
               fontWeight: FontWeight.w400,
               color: const Color(0xFF1A1A1A),
             ),
@@ -370,16 +469,22 @@ class _ProjectShowcaseSection extends StatelessWidget {
         .where((exp) => exp.type == 'work')
         .take(3)
         .toList();
+    final horizontalPadding = ResponsiveUtils.getHorizontalPadding(context);
+    final titleFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 32,
+      desktop: 48,
+    );
 
     return Container(
       color: const Color(0xFFF8F8F8),
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
+      padding: EdgeInsets.symmetric(vertical: 80, horizontal: horizontalPadding),
       child: Column(
         children: [
           Text(
             'Recent Work',
             style: GoogleFonts.inter(
-              fontSize: 48,
+              fontSize: titleFontSize,
               fontWeight: FontWeight.w400,
               color: const Color(0xFF1A1A1A),
             ),
@@ -406,9 +511,28 @@ class _Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final horizontalPadding = ResponsiveUtils.getHorizontalPadding(context);
+    final emailFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 12,
+      desktop: 16,
+    );
+    final iconSize = isMobile ? 40.0 : 48.0;
+    final availabilityTitleFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 14,
+      desktop: 16,
+    );
+    final availabilityMessageFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 12,
+      desktop: 14,
+    );
+
     return Container(
       color: const Color(0xFF1F1F1F),
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 80),
+      padding: EdgeInsets.symmetric(vertical: 80, horizontal: horizontalPadding),
       child: Center(
         child: Column(
           children: [
@@ -454,12 +578,15 @@ class _Footer extends StatelessWidget {
                       color: Color(0xFF9CA3AF),
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      'harishanbalagandev@gmail.com',
-                      style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0xFF9CA3AF),
+                    Flexible(
+                      child: Text(
+                        'harishanbalagandev@gmail.com',
+                        style: GoogleFonts.inter(
+                          fontSize: emailFontSize,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF9CA3AF),
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -479,47 +606,88 @@ class _Footer extends StatelessWidget {
                 color: const Color(0xFF2B2B2B),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 48,
-                    height: 48,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFE8F54D),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.flag,
-                      size: 24,
-                      color: Color(0xFF1A1A1A),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Current availability',
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+              child: isMobile
+                  ? Column(
+                      children: [
+                        Container(
+                          width: iconSize,
+                          height: iconSize,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFE8F54D),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.flag,
+                            size: 24,
+                            color: Color(0xFF1A1A1A),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        portfolioData.availabilityMessage,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xFF9CA3AF),
+                        const SizedBox(height: 16),
+                        Column(
+                          children: [
+                            Text(
+                              'Current availability',
+                              style: GoogleFonts.inter(
+                                fontSize: availabilityTitleFontSize,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              portfolioData.availabilityMessage,
+                              style: GoogleFonts.inter(
+                                fontSize: availabilityMessageFontSize,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF9CA3AF),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      ],
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: iconSize,
+                          height: iconSize,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFE8F54D),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.flag,
+                            size: 24,
+                            color: Color(0xFF1A1A1A),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Current availability',
+                              style: GoogleFonts.inter(
+                                fontSize: availabilityTitleFontSize,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              portfolioData.availabilityMessage,
+                              style: GoogleFonts.inter(
+                                fontSize: availabilityMessageFontSize,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xFF9CA3AF),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
             ),
           ],
         ),
@@ -542,14 +710,24 @@ class _ProjectCardState extends State<_ProjectCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final cardPadding = isMobile ? 20.0 : 32.0;
+    final companyFontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 20,
+      desktop: 24,
+    );
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
-        width: 360,
-        padding: const EdgeInsets.all(32),
+        constraints: BoxConstraints(
+          maxWidth: isMobile ? double.infinity : 360,
+        ),
+        padding: EdgeInsets.all(cardPadding),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -582,7 +760,7 @@ class _ProjectCardState extends State<_ProjectCard> {
             Text(
               widget.project.company,
               style: GoogleFonts.inter(
-                fontSize: 24,
+                fontSize: companyFontSize,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF1A1A1A),
               ),
@@ -660,6 +838,14 @@ class _SocialLinkCardState extends State<_SocialLinkCard> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final horizontalPadding = isMobile ? 20.0 : 32.0;
+    final fontSize = ResponsiveUtils.getResponsiveFontSize(
+      context,
+      mobile: 14,
+      desktop: 16,
+    );
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -674,7 +860,7 @@ class _SocialLinkCardState extends State<_SocialLinkCard> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 20),
           decoration: BoxDecoration(
             color: _isHovered
                 ? const Color(0xFFEEEEEE)
@@ -712,7 +898,7 @@ class _SocialLinkCardState extends State<_SocialLinkCard> {
               Text(
                 widget.link.name,
                 style: GoogleFonts.inter(
-                  fontSize: 16,
+                  fontSize: fontSize,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF1A1A1A),
                 ),
