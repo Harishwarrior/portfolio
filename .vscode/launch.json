@@ -7,19 +7,15 @@
         {
             "name": "portfolio",
             "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "portfolio (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
+            "type": "jaspr"
         },
         {
             "name": "portfolio (release mode)",
             "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
+            "type": "jaspr",
+            "args": [
+                "--release"
+            ]
         }
     ]
 }
