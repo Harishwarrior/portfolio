@@ -1,102 +1,40 @@
-# Portfolio Web App
+<img src="/public/cover.jpg" alt="Cover image representing Nim, a personal website template" width="100%" />
 
-A Flutter web portfolio application showcasing professional experience, education, and social links.
+Nim is a free and open-source personal website template built with Next.js 15, React 19, Tailwind CSS v4, and Motion. Designed for developers, designers, and founders, it combines minimalism with delightful animated components powered by [Motion-Primitives](https://motion-primitives.com).
+
+Live demo: [https://nim-fawn.vercel.app](https://nim-fawn.vercel.app)
 
 ## Features
 
-- Data-driven content from JSON configuration
-- Responsive design with Material 3
-- Work experience timeline
-- Social media links with SVG icons
-- Dynamic experience calculation
-- Feature-first architecture with Riverpod state management
+- Minimal one-page portfolio layout.
+- Blog support with MDX.
+- Responsive and accessible design.
+- Easy to use
+- [Motion-Primitives](https://motion-primitives.com) for animated components.
 
-## Setup
+## Getting Started
 
-```bash
-# Install dependencies
-fvm flutter pub get
-
-# Run development server
-fvm flutter run -d chrome
-
-# Build for production
-fvm flutter build web
-```
-
-## Project Structure (Feature-First Architecture)
-
-```text
-lib/
-├── main.dart                    # App entry point with Riverpod ProviderScope
-└── features/
-    └── portfolio/
-        ├── data/                # Data layer
-        │   ├── portfolio_service.dart
-        │   └── timeline_service.dart
-        ├── domain/              # Domain layer (models)
-        │   ├── portfolio_model.dart
-        │   └── timeline_model.dart
-        ├── presentation/        # Presentation layer
-        │   └── home_screen.dart
-        └── providers/           # Riverpod providers
-            ├── portfolio_provider.dart
-            └── timeline_provider.dart
-```
-
-## Architecture
-
-### Feature-First Organization
-
-- **Data Layer**: Services for loading JSON data from assets
-- **Domain Layer**: Data models and business logic
-- **Presentation Layer**: UI components and screens
-- **Providers Layer**: Riverpod state management and dependency injection
-
-### Riverpod State Management
-
-- Uses Riverpod Generator for code generation
-- `portfolioDataProviderProvider` - Manages portfolio data loading
-- `timelineDataProviderProvider` - Manages timeline data loading
-- AsyncValue pattern for loading/error states
-
-## Content Management
-
-Edit `assets/data/portfolio.json` to update:
-
-- Personal information
-- Work experience
-- Social links
-- Availability status
-
-## Dependencies
-
-- Flutter 3.38.3
-- google_fonts
-- flutter_svg
-- url_launcher
-- flutter_riverpod
-- riverpod_annotation
-- riverpod_generator
-- build_runner
-
-## Development Workflow
+For detailed setup instructions, refer to the [Installation Guide](./INSTALLATION.md).
 
 ```bash
-# Generate Riverpod providers
-fvm dart run build_runner build -d
-
-# Run linter
-fvm flutter analyze
-
-# Run tests
-fvm flutter test
+git clone https://github.com/ibelick/nim.git
+cd nim
+npm install
+npm run dev
 ```
 
-## Key Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-1. **Riverpod Integration**: State management with dependency injection
-2. **Feature Isolation**: Each feature has its own data, domain, presentation, and providers
-3. **Code Generation**: Riverpod Generator creates type-safe providers
-4. **Async State Handling**: Loading, error, and data states managed by Riverpod
-5. **Clean Architecture**: Separation of concerns between layers
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests to improve Nim.
+
+## Deployment
+
+You can deploy your site to any hosting platform that supports Next.js. For the easiest deployment experience, consider using Vercel:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fibelick%2Fnim&env=NEXT_PUBLIC_SITE_URL&project-name=nim&repository-name=nim&redirect-url=https%3A%2F%2Ftwitter.com%2Fibelick&demo-title=Nim&demo-description=Nim%20is%20a%20free%20and%20open-source%20minimal%20personal%20website%20template%20built%20with%20Next.js%2015%2C%20React%2019%2C%20and%20Motion-Primitives.&demo-url=https%3A%2F%2Fnim.vercel.app&demo-image=https%3A%2F%2Fraw.githubusercontent.com%2Fibelick%2Fnim%2Frefs%2Fheads%2Fmain%2F.github%2Fassets%2Freadme.png&teamSlug=ibelick)
+
+## About
+
+Nim is designed to make personal branding effortless and beautiful. If you enjoy it, consider sharing it and exploring [Motion-Primitives Pro](https://pro.motion-primitives.com/).
