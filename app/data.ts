@@ -4,6 +4,7 @@ type Project = {
   link: string
   video: string
   id: string
+  category?: 'mobile' | 'package' | 'tool'
 }
 
 type WorkExperience = {
@@ -11,7 +12,7 @@ type WorkExperience = {
   title: string
   start: string
   end: string
-  link: string
+  link?: string
   id: string
 }
 
@@ -29,97 +30,155 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
-    name: 'Motion Primitives Pro',
-    description:
-      'Advanced components and templates to craft beautiful websites.',
-    link: 'https://pro.motion-primitives.com/',
-    video:
-      'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/newProfileItem/d898be8a-7037-4c71-af0c-8997239b050d.mp4?_a=DATAdtAAZAA0',
+    name: 'TvStats',
+    description: 'TV show tracking app with 6k+ downloads.',
+    link: 'https://tvstats.harishanbalagan.com/',
+    video: '',
     id: 'project1',
+    category: 'mobile',
   },
   {
-    name: 'Motion Primitives',
-    description: 'UI kit to make beautiful, animated interfaces.',
-    link: 'https://motion-primitives.com/',
-    video:
-      'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/XSfIvT7BUWbPRXhrbLed/ee6871c9-8400-49d2-8be9-e32675eabf7e.mp4?_a=DATAdtAAZAA0',
+    name: 'Rewardive',
+    description: 'Rewards and loyalty program app.',
+    link: 'https://play.google.com/store/apps/details?id=app.rewardive',
+    video: '',
     id: 'project2',
+    category: 'mobile',
+  },
+  {
+    name: 'Namma Wallet',
+    description: 'Personal finance and wallet management app.',
+    link: 'https://apps.apple.com/in/app/namma-wallet/id6757295408',
+    video: '',
+    id: 'project3',
+    category: 'mobile',
+  },
+  {
+    name: 'Thrifty Grocery',
+    description: 'Quick commerce comparison app.',
+    link: '',
+    video: '',
+    id: 'project4',
+    category: 'mobile',
+  },
+  {
+    name: 'Team',
+    description: 'Team collaboration app built at Thiran Technologies.',
+    link: 'https://play.google.com/store/apps/details?id=com.thirantech.team&hl=en_IN',
+    video: '',
+    id: 'project5',
+    category: 'mobile',
+  },
+  {
+    name: '959 FM',
+    description: 'Radio streaming app built at Thiran Technologies.',
+    link: 'https://apps.apple.com/in/app/959-fm/id1615935976',
+    video: '',
+    id: 'project6',
+    category: 'mobile',
+  },
+  {
+    name: 'svg_to_font_convertor',
+    description: 'Dart package to convert SVG icons to custom icon fonts.',
+    link: 'https://pub.dev/packages/svg_to_font_convertor',
+    video: '',
+    id: 'package1',
+    category: 'package',
+  },
+  {
+    name: 'Flutter Claude Skills',
+    description: 'Claude Code skills for Flutter development.',
+    link: 'https://github.com/Harishwarrior/flutter-claude-skills',
+    video: '',
+    id: 'tool1',
+    category: 'tool',
+  },
+  {
+    name: 'JankKiller',
+    description: 'Flutter DevTools extension for performance optimization.',
+    link: 'https://github.com/Harishwarrior/jankkiller',
+    video: '',
+    id: 'tool2',
+    category: 'tool',
   },
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    company: 'Reglazed Studio',
-    title: 'CEO',
-    start: '2024',
+    company: 'E2 Infosystems Ltd',
+    title: 'Senior Software Engineer',
+    start: 'Aug 2023',
     end: 'Present',
-    link: 'https://ibelick.com',
     id: 'work1',
   },
   {
-    company: 'Freelance',
-    title: 'Design Engineer',
-    start: '2022',
-    end: '2024',
-    link: 'https://ibelick.com',
+    company: 'Stealth Startup',
+    title: 'Freelance Software Engineer',
+    start: 'Jul 2023',
+    end: 'Jul 2023',
     id: 'work2',
   },
   {
-    company: 'Freelance',
-    title: 'Front-end Developer',
-    start: '2017',
-    end: 'Present',
-    link: 'https://ibelick.com',
+    company: 'Thiran Technologies',
+    title: 'Software Engineer',
+    start: 'Aug 2021',
+    end: 'Jul 2023',
+    link: 'https://thirantech.com/',
     id: 'work3',
+  },
+  {
+    company: 'INFOGRO TECHNOLOGY',
+    title: 'Intern',
+    start: 'Nov 2019',
+    end: 'Nov 2019',
+    id: 'work4',
   },
 ]
 
 export const BLOG_POSTS: BlogPost[] = [
   {
-    title: 'Exploring the Intersection of Design, AI, and Design Engineering',
-    description: 'How AI is changing the way we design',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-1',
+    title: 'iOS app development without Mac — sort of',
+    description: 'A guide to developing iOS apps without owning a Mac.',
+    link: 'https://medium.com/@harishwarrior/ios-app-development-without-mac-sort-of-0fda8cf3e15a',
+    uid: 'article1',
   },
   {
-    title: 'Why I left my job to start my own company',
-    description:
-      'A deep dive into my decision to leave my job and start my own company',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-2',
+    title: 'Vibe coding with Flutter',
+    description: 'Exploring the joy of building with Flutter.',
+    link: 'https://medium.com/nammaflutter/vibe-coding-with-flutter-61414d6080b8',
+    uid: 'article2',
   },
   {
-    title: 'What I learned from my first year of freelancing',
-    description:
-      'A look back at my first year of freelancing and what I learned',
-    link: '/blog/exploring-the-intersection-of-design-ai-and-design-engineering',
-    uid: 'blog-3',
+    title: 'Streamlining Xcode with tools and tips — Part 1',
+    description: 'Tips and tools to improve your Xcode workflow.',
+    link: 'https://medium.com/@harishwarrior/streamlining-xcode-with-tools-and-tips-part-1-22997d852441',
+    uid: 'article3',
   },
   {
-    title: 'How to Export Metadata from MDX for Next.js SEO',
-    description: 'A guide on exporting metadata from MDX files to leverage Next.js SEO features.',
-    link: '/blog/example-mdx-metadata',
-    uid: 'blog-4',
+    title: 'Streamlining Xcode with tools and tips — Part 2',
+    description: 'More tips and tools for Xcode productivity.',
+    link: 'https://medium.com/@harishwarrior/streamlining-xcode-with-tools-and-tips-part-2-9a17fd2c843c',
+    uid: 'article4',
   },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    label: 'Github',
-    link: 'https://github.com/ibelick',
-  },
-  {
     label: 'Twitter',
-    link: 'https://twitter.com/ibelick',
+    link: 'https://twitter.com/theflutterboi',
   },
   {
     label: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/ibelick',
+    link: 'https://www.linkedin.com/in/harishanbalagan',
   },
   {
-    label: 'Instagram',
-    link: 'https://www.instagram.com/ibelick',
+    label: 'YouTube',
+    link: 'https://www.youtube.com/@theflutterboi',
+  },
+  {
+    label: 'GitHub',
+    link: 'https://github.com/harishwarrior',
   },
 ]
 
-export const EMAIL = 'your@email.com'
+export const EMAIL = 'harishanbalagandev@gmail.com'

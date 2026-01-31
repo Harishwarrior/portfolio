@@ -12,15 +12,15 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nim-fawn.vercel.app/'),
+  metadataBase: new URL('https://www.kamranbekirov.com/'),
   alternates: {
     canonical: '/'
   },
   title: {
-    default: 'Nim - Personal website template',
-    template: '%s | Nim'
+    default: 'Kamran Bekirov - Flutter Developer',
+    template: '%s | Kamran Bekirov'
   },
-  description:  'Nim is a free and open-source personal website template built with Next.js 15, React 19 and Motion-Primitives.',
+  description: 'Kamran Bekirov is a Flutter Developer who has built 80+ mobile apps. Specialist in pixel-perfect, high-performance mobile experiences.',
 };
 
 const geist = Geist({
