@@ -51,8 +51,6 @@ export function Cursor({
 
     if (!attachToParent) {
       document.body.style.cursor = 'none';
-    } else {
-      document.body.style.cursor = 'auto';
     }
 
     const updatePosition = (e: MouseEvent) => {
