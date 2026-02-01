@@ -97,7 +97,7 @@ function MorphingDialogTrigger({
   style,
   triggerRef,
 }: MorphingDialogTriggerProps) {
-  const { setIsOpen, isOpen, uniqueId } = useMorphingDialog()
+  const { triggerRef: contextTriggerRef, setIsOpen, isOpen, uniqueId } = useMorphingDialog()
 
   const handleClick = useCallback(() => {
     setIsOpen(!isOpen)
@@ -115,7 +115,7 @@ function MorphingDialogTrigger({
 
   return (
     <motion.div
-      ref={triggerRef}
+      ref={triggerRef ?? contextTriggerRef}
       layoutId={`dialog-${uniqueId}`}
       className={cn('relative cursor-pointer', className)}
       onClick={handleClick}
