@@ -10,6 +10,7 @@ import {
   useEffect,
   useState,
   useId,
+  useCallback,
   isValidElement,
 } from 'react'
 
@@ -35,19 +36,19 @@ export function AnimatedBackground({
   const [activeId, setActiveId] = useState<string | null>(null)
   const uniqueId = useId()
 
-  const handleSetActiveId = (id: string | null) => {
+  const handleSetActiveId = useCallback((id: string | null) => {
     setActiveId(id)
 
     if (onValueChange) {
       onValueChange(id)
     }
-  }
+  }, [onValueChange])
 
   useEffect(() => {
     if (defaultValue !== undefined) {
-      setActiveId(defaultValue)
+      handleSetActiveId(defaultValue)
     }
-  }, [defaultValue])
+  }, [defaultValue, handleSetActiveId])
 
   return Children.map(children, (child, index) => {
     if (!isValidElement(child)) return null
