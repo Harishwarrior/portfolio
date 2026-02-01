@@ -212,6 +212,7 @@ function MorphingDialogContent({
       style={style}
       role="dialog"
       aria-modal="true"
+      id={`motion-ui-morphing-dialog-content-${uniqueId}`}
       aria-labelledby={`motion-ui-morphing-dialog-title-${uniqueId}`}
       aria-describedby={`motion-ui-morphing-dialog-description-${uniqueId}`}
     >
@@ -277,6 +278,7 @@ function MorphingDialogTitle({
       layoutId={`dialog-title-container-${uniqueId}`}
       className={className}
       style={style}
+      id={`motion-ui-morphing-dialog-title-${uniqueId}`}
       layout
     >
       {children}
@@ -337,6 +339,7 @@ function MorphingDialogDescription({
       }
       variants={variants}
       className={className}
+      id={`motion-ui-morphing-dialog-description-${uniqueId}`}
       initial="initial"
       animate="animate"
       exit="exit"
