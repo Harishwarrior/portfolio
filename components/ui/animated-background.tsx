@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prettier/prettier */
 'use client'
 import { cn } from '@/lib/utils'
 import { AnimatePresence, Transition, motion } from 'motion/react'
@@ -8,12 +10,13 @@ import {
   useEffect,
   useState,
   useId,
+  isValidElement,
 } from 'react'
 
 export type AnimatedBackgroundProps = {
   children:
-    | ReactElement<{ 'data-id': string }>[]
-    | ReactElement<{ 'data-id': string }>
+  | ReactElement<{ 'data-id': string }>[]
+  | ReactElement<{ 'data-id': string }>
   defaultValue?: string
   onValueChange?: (newActiveId: string | null) => void
   className?: string
@@ -46,26 +49,33 @@ export function AnimatedBackground({
     }
   }, [defaultValue])
 
-  return Children.map(children, (child: any, index) => {
-    const id = child.props['data-id']
+  return Children.map(children, (child, index) => {
+    if (!isValidElement(child)) return null
+
+    const childProps = child.props as {
+      'data-id': string
+      className?: string
+      children?: React.ReactNode
+    }
+    const id = childProps['data-id']
 
     const interactionProps = enableHover
       ? {
-          onMouseEnter: () => handleSetActiveId(id),
-          onMouseLeave: () => handleSetActiveId(null),
-        }
+        onMouseEnter: () => handleSetActiveId(id),
+        onMouseLeave: () => handleSetActiveId(null),
+      }
       : {
-          onClick: () => handleSetActiveId(id),
-        }
+        onClick: () => handleSetActiveId(id),
+      }
 
     return cloneElement(
-      child,
+      child as ReactElement,
       {
         key: index,
-        className: cn('relative inline-flex', child.props.className),
+        className: cn('relative inline-flex', childProps.className),
         'data-checked': activeId === id ? 'true' : 'false',
         ...interactionProps,
-      },
+      } as any,
       <>
         <AnimatePresence initial={false}>
           {activeId === id && (
@@ -83,7 +93,7 @@ export function AnimatedBackground({
             />
           )}
         </AnimatePresence>
-        <div className="z-10">{child.props.children}</div>
+        <div className="z-10">{childProps.children}</div>
       </>,
     )
   })

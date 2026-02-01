@@ -8,7 +8,10 @@ export function Header() {
     <header className="mb-8">
       <div className="flex items-center justify-between">
         <div>
-          <Link href="/" className="font-medium text-black dark:text-white text-lg">
+          <Link
+            href="/"
+            className="text-lg font-medium text-black dark:text-white"
+          >
             Harish
           </Link>
           <TextEffect
@@ -29,19 +32,24 @@ export function Header() {
           Available for work
         </div>
       </div>
-      <p className="mt-6 text-zinc-600 dark:text-zinc-400 leading-relaxed">
-        <span className="text-black dark:text-white font-medium">I was 10x developer before AI.</span>
+      <p className="mt-6 leading-relaxed text-zinc-600 dark:text-zinc-400">
+        <span className="font-medium text-black dark:text-white">
+          I was 10x developer before AI.
+        </span>
         <br />
-        <span className="text-black dark:text-white font-medium">Now with AI?</span> I&apos;m 100x.
+        <span className="font-medium text-black dark:text-white">
+          Now with AI?
+        </span>{' '}
+        I&apos;m 100x.
       </p>
-      <div className="mt-4 flex items-center gap-3 flex-wrap">
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         {SOCIAL_LINKS.map((link) => (
           <a
             key={link.label}
             href={link.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-black dark:text-zinc-400 dark:hover:text-white transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-zinc-600 transition-colors hover:text-black dark:text-zinc-400 dark:hover:text-white"
           >
             <SocialIcon label={link.label} />
             {link.label}

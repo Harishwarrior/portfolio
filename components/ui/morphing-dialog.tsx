@@ -97,7 +97,12 @@ function MorphingDialogTrigger({
   style,
   triggerRef,
 }: MorphingDialogTriggerProps) {
-  const { triggerRef: contextTriggerRef, setIsOpen, isOpen, uniqueId } = useMorphingDialog()
+  const {
+    triggerRef: contextTriggerRef,
+    setIsOpen,
+    isOpen,
+    uniqueId,
+  } = useMorphingDialog()
 
   const handleClick = useCallback(() => {
     setIsOpen(!isOpen)
@@ -343,7 +348,6 @@ function MorphingDialogDescription({
       initial="initial"
       animate="animate"
       exit="exit"
-      id={`dialog-description-${uniqueId}`}
     >
       {children}
     </motion.div>

@@ -14,14 +14,15 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://harishanbalagan.com/'),
   alternates: {
-    canonical: '/'
+    canonical: '/',
   },
   title: {
     default: 'Harish - Flutter Developer',
-    template: '%s | Harish'
+    template: '%s | Harish',
   },
-  description: 'Harish is a Senior Software Engineer who has built 80+ mobile apps. Specialist in Flutter development and mobile experiences.',
-};
+  description:
+    'Harish is a Senior Software Engineer who has built 80+ mobile apps. Specialist in Flutter development and mobile experiences.',
+}
 
 const geist = Geist({
   variable: '--font-geist',
@@ -53,9 +54,7 @@ export default function RootLayout({
             <div className="relative mx-auto w-full max-w-screen-sm px-4 pt-20">
               <Header />
             </div>
-            <div className="flex-1">
-              {children}
-            </div>
+            <div className="flex-1">{children}</div>
             <div className="relative mx-auto w-full max-w-screen-sm px-4">
               <Footer />
             </div>

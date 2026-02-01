@@ -10,13 +10,7 @@ import {
   MorphingDialogClose,
   MorphingDialogContainer,
 } from '@/components/ui/morphing-dialog'
-import Link from 'next/link'
-import {
-  PROJECTS,
-  WORK_EXPERIENCE,
-  BLOG_POSTS,
-  EMAIL,
-} from './data'
+import { PROJECTS, WORK_EXPERIENCE, BLOG_POSTS, EMAIL } from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -45,7 +39,7 @@ type ProjectMediaProps = {
 function ProjectMedia({ video, image }: ProjectMediaProps) {
   if (!video && !image) {
     return (
-      <div className="aspect-video w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
+      <div className="flex aspect-video w-full items-center justify-center rounded-xl bg-zinc-100 text-zinc-400 dark:bg-zinc-800">
         No Preview
       </div>
     )
@@ -157,11 +151,11 @@ function TiltedCarousel() {
   const images = [...TILTED_IMAGES, ...TILTED_IMAGES]
   return (
     <div className="flex gap-4 overflow-hidden py-10">
-      <div className="flex animate-scroll hover:[animation-play-state:paused] gap-4">
+      <div className="animate-scroll flex gap-4 hover:[animation-play-state:paused]">
         {images.map((src, i) => (
           <motion.div
             key={`carousel-${i < TILTED_IMAGES.length ? 'a' : 'b'}-${i % TILTED_IMAGES.length}`}
-            className="h-48 w-64 shrink-0 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800 shadow-xl"
+            className="h-48 w-64 shrink-0 overflow-hidden rounded-2xl bg-zinc-100 shadow-xl dark:bg-zinc-800"
             style={{ rotate: i % 2 === 0 ? -3 : 3 }}
             whileHover={{ scale: 1.05, rotate: 0, zIndex: 10 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
@@ -177,7 +171,7 @@ function TiltedCarousel() {
 export default function Personal() {
   const [filter, setFilter] = useState<'mobile' | 'package' | 'tool'>('mobile')
 
-  const filteredProjects = PROJECTS.filter(p => p.category === filter)
+  const filteredProjects = PROJECTS.filter((p) => p.category === filter)
 
   return (
     <motion.main
@@ -194,40 +188,42 @@ export default function Personal() {
         <TiltedCarousel />
       </motion.section>
 
-      <div className="mx-auto max-w-screen-sm px-4 space-y-24 mt-16">
-
+      <div className="mx-auto mt-16 max-w-screen-sm space-y-24 px-4">
         <motion.section
           key="projects"
           variants={VARIANTS_SECTION}
           transition={TRANSITION_SECTION}
         >
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <h3 className="text-lg font-medium">My works</h3>
-            <div className="flex gap-1 rounded-full bg-zinc-100 p-1 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+            <div className="flex gap-1 rounded-full border border-zinc-200 bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-900">
               <button
                 onClick={() => setFilter('mobile')}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === 'mobile'
-                  ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
-                  : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
-                  }`}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  filter === 'mobile'
+                    ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                }`}
               >
                 Mobile Apps
               </button>
               <button
                 onClick={() => setFilter('package')}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === 'package'
-                  ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
-                  : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
-                  }`}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  filter === 'package'
+                    ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                }`}
               >
                 Packages
               </button>
               <button
                 onClick={() => setFilter('tool')}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === 'tool'
-                  ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
-                  : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
-                  }`}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                  filter === 'tool'
+                    ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                }`}
               >
                 Tools
               </button>
@@ -237,7 +233,7 @@ export default function Personal() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {filteredProjects.map((project) => (
               <div key={project.id} className="group space-y-2">
-                <div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50 transition-all duration-300 group-hover:ring-emerald-500/30">
+                <div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 transition-all duration-300 ring-inset group-hover:ring-emerald-500/30 dark:bg-zinc-950/40 dark:ring-zinc-800/50">
                   <ProjectMedia video={project.video} image={project.image} />
                 </div>
                 <div className="px-1">
@@ -282,10 +278,10 @@ export default function Personal() {
                   />
                 </div>
                 <div className="p-4">
-                  <h4 className="font-medium text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">
+                  <h4 className="line-clamp-2 font-medium text-zinc-900 transition-colors group-hover:text-emerald-600 dark:text-zinc-100 dark:group-hover:text-emerald-400">
                     {post.title}
                   </h4>
-                  <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400 line-clamp-2">
+                  <p className="mt-1 line-clamp-2 text-sm text-zinc-500 dark:text-zinc-400">
                     {post.description}
                   </p>
                 </div>
@@ -308,13 +304,13 @@ export default function Personal() {
               return (
                 <Wrapper
                   key={job.id}
-                  className="relative overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30 block"
+                  className="relative block overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
                   {...(isLink
                     ? {
-                      href: job.link,
-                      target: '_blank',
-                      rel: 'noopener noreferrer',
-                    }
+                        href: job.link,
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                      }
                     : {})}
                 >
                   <Spotlight
@@ -350,7 +346,10 @@ export default function Personal() {
           <h3 className="mb-5 text-lg font-medium">Connect</h3>
           <p className="text-zinc-600 dark:text-zinc-400">
             Feel free to contact me at{' '}
-            <a className="underline text-emerald-700 dark:text-emerald-400" href={`mailto:${EMAIL}`}>
+            <a
+              className="text-emerald-700 underline dark:text-emerald-400"
+              href={`mailto:${EMAIL}`}
+            >
               {EMAIL}
             </a>
           </p>
