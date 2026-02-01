@@ -8,9 +8,13 @@ function CopyButton() {
   const currentUrl = typeof window !== 'undefined' ? window.location.href : ''
 
   useEffect(() => {
-    setTimeout(() => {
-      setText('Copy')
-    }, 2000)
+    if (text !== 'Copy') {
+      const timerId = setTimeout(() => {
+        setText('Copy')
+      }, 2000)
+
+      return () => clearTimeout(timerId)
+    }
   }, [text])
 
   return (
