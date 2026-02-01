@@ -245,6 +245,7 @@ export default function Personal() {
                     className="font-base group/link relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
                     href={project.link}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {project.name}
                     <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-emerald-500 transition-all duration-200 group-hover/link:max-w-full"></span>
