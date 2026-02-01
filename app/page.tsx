@@ -34,9 +34,10 @@ const TRANSITION_SECTION = {
 type ProjectMediaProps = {
   video?: string
   image?: string
+  title: string
 }
 
-function ProjectMedia({ video, image }: ProjectMediaProps) {
+function ProjectMedia({ video, image, title }: ProjectMediaProps) {
   if (!video && !image) {
     return (
       <div className="flex aspect-video w-full items-center justify-center rounded-xl bg-zinc-100 text-zinc-400 dark:bg-zinc-800">
@@ -57,7 +58,7 @@ function ProjectMedia({ video, image }: ProjectMediaProps) {
         <MorphingDialogTrigger>
           <img
             src={image}
-            alt=""
+            alt={`Preview image of ${title}`}
             className="aspect-video w-full cursor-zoom-in rounded-xl object-cover"
           />
         </MorphingDialogTrigger>
@@ -68,7 +69,7 @@ function ProjectMedia({ video, image }: ProjectMediaProps) {
           >
             <img
               src={image}
-              alt=""
+              alt={`Enlarged image of ${title}`}
               className="aspect-video h-[50vh] w-full rounded-xl object-cover md:h-[70vh]"
             />
           </MorphingDialogContent>
@@ -105,6 +106,7 @@ function ProjectMedia({ video, image }: ProjectMediaProps) {
           autoPlay
           loop
           muted
+          aria-label={`Preview video of ${title}`}
           className="aspect-video w-full cursor-zoom-in rounded-xl"
         />
       </MorphingDialogTrigger>
@@ -118,6 +120,7 @@ function ProjectMedia({ video, image }: ProjectMediaProps) {
             autoPlay
             loop
             muted
+            aria-label={`Enlarged video of ${title}`}
             className="aspect-video h-[50vh] w-full rounded-xl md:h-[70vh]"
           />
         </MorphingDialogContent>
@@ -234,7 +237,11 @@ export default function Personal() {
             {filteredProjects.map((project) => (
               <div key={project.id} className="group space-y-2">
                 <div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 transition-all duration-300 ring-inset group-hover:ring-emerald-500/30 dark:bg-zinc-950/40 dark:ring-zinc-800/50">
-                  <ProjectMedia video={project.video} image={project.image} />
+                  <ProjectMedia
+                    video={project.video}
+                    image={project.image}
+                    title={project.name}
+                  />
                 </div>
                 <div className="px-1">
                   <a
