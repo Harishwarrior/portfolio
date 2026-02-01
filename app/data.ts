@@ -73,7 +73,7 @@ export const PROJECTS: Project[] = [
     name: 'Flutter Claude Skills',
     description: 'Claude Code skills for Flutter development.',
     link: 'https://github.com/Harishwarrior/flutter-claude-skills',
-    image: 'https://private-user-images.githubusercontent.com/38380040/515700285-57cdb77d-db53-4e94-a429-5f4b6a3b4166.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Njk4NjYxNTEsIm5iZiI6MTc2OTg2NTg1MSwicGF0aCI6Ii8zODM4MDA0MC81MTU3MDAyODUtNTdjZGI3N2QtZGI1My00ZTk0LWE0MjktNWY0YjZhM2I0MTY2LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjAxMzElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwMTMxVDEzMjQxMVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTAwMTgwZWM3MmFlMmVlN2U1ZDc2ZjJiYzAwOTQ2NjI1YmY5ZmU5ODgyYzY3MTNlZjVjOGNlMDU2NWZkYWJhNmUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.DhyOlgnPKVg0ihJrfQ3wdakAhgRpQunc9yrm91I0iF8',
+    image: 'https://github.com/user-attachments/assets/57cdb77d-db53-4e94-a429-5f4b6a3b4166',
     id: 'tool1',
     category: 'tool',
   },
