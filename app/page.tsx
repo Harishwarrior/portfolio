@@ -183,8 +183,10 @@ function TiltedCarousel() {
             <img
               src={src}
               alt=""
+              aria-hidden="true"
               className="h-full w-full object-cover"
-              loading="eager"
+              loading={i < 2 ? 'eager' : 'lazy'}
+              fetchPriority={i < 2 ? 'high' : 'low'}
               decoding="async"
             />
           </motion.div>
