@@ -144,17 +144,34 @@ function ProjectMedia({ video, image, title }: ProjectMediaProps) {
 }
 
 const TILTED_IMAGES = [
-  'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000&auto=format&fit=crop',
+  '/carousel/PXL_20220309_163948803~2_Original.webp',
+  '/carousel/PXL_20220522_211112715.PORTRAIT_Original.webp',
+  '/carousel/PXL_20221119_121931327_Original.webp',
+  '/carousel/IMG_5705_Original.webp',
+  '/carousel/FullSizeRender_Original.webp',
+  '/carousel/IMG_2631_Original.webp',
+  '/carousel/IMG_2634_Original.webp',
+  '/carousel/IMG_2700_Original.webp',
+  '/carousel/IMG_2707_Original.webp',
+  '/carousel/IMG_0236_Original.webp',
+  '/carousel/IMG_3564_Original.webp',
+  '/carousel/IMG_3572_Original.webp',
+  '/carousel/IMG_3597_Original.webp',
+  '/carousel/IMG_3600_Original.webp',
+  '/carousel/IMG_5532_Original.webp',
+  '/carousel/IMG_5540_Original.webp',
+  '/carousel/IMG_5706_Original.webp',
+  '/carousel/IMG_5712_Original.webp',
+  '/carousel/IMG_5721_Original.webp',
+  '/carousel/IMG_5882_Original.webp',
+  '/carousel/IMG_5918_Original.webp',
 ]
 
 function TiltedCarousel() {
   const images = [...TILTED_IMAGES, ...TILTED_IMAGES]
   return (
     <div className="flex gap-4 overflow-hidden py-10">
-      <div className="animate-scroll flex gap-4 hover:[animation-play-state:paused]">
+      <div className="animate-scroll flex gap-4 hover:[animation-play-state:paused] [will-change:transform]">
         {images.map((src, i) => (
           <motion.div
             key={`carousel-${i < TILTED_IMAGES.length ? 'a' : 'b'}-${i % TILTED_IMAGES.length}`}
@@ -163,7 +180,15 @@ function TiltedCarousel() {
             whileHover={{ scale: 1.05, rotate: 0, zIndex: 10 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
-            <img src={src} alt="" className="h-full w-full object-cover" />
+            <img
+              src={src}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full object-cover"
+              loading={i < 2 ? 'eager' : 'lazy'}
+              fetchPriority={i < 2 ? 'high' : 'low'}
+              decoding="async"
+            />
           </motion.div>
         ))}
       </div>
