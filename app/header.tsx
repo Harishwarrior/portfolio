@@ -38,8 +38,8 @@ export function Header() {
           <span className="font-medium text-black dark:text-white">
             Chennai, India
           </span>
-          . I often find myself expressing ideas through code more naturally than
-          words—hopefully my work will speak for itself.
+          . I often find myself expressing ideas through code more naturally
+          than words—hopefully my work will speak for itself.
         </p>
         <p>
           I&apos;m currently working at{' '}
@@ -47,14 +47,15 @@ export function Header() {
             E2 Infosystems
           </span>
           . I previously majored in Computer Science and built mobile apps at
-          various startups. On the side, I play tennis and I&apos;m a die-hard fan
-          of Linus Torvalds.
+          various startups. On the side, I play tennis and I&apos;m a die-hard
+          fan of Linus Torvalds.
         </p>
         <p>
-          Life&apos;s short, time&apos;s precious, and the tech world moves fast.
-          But I&apos;m learning to balance the hustle—to breathe, to rest. If
-          there&apos;s anything worth optimizing for, it&apos;s the people who
-          mean the most to you, and the passions that bring pure joy to your life.
+          Life&apos;s short, time&apos;s precious, and the tech world moves
+          fast. But I&apos;m learning to balance the hustle—to breathe, to rest.
+          If there&apos;s anything worth optimizing for, it&apos;s the people
+          who mean the most to you, and the passions that bring pure joy to your
+          life.
         </p>
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
