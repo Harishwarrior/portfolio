@@ -32,16 +32,31 @@ export function Header() {
           Available for work
         </div>
       </div>
-      <p className="mt-6 leading-relaxed text-zinc-600 dark:text-zinc-400">
-        <span className="font-medium text-black dark:text-white">
-          I was 10x developer before AI.
-        </span>
-        <br />
-        <span className="font-medium text-black dark:text-white">
-          Now with AI?
-        </span>{' '}
-        I&apos;m 100x.
-      </p>
+      <div className="mt-6 space-y-4 leading-relaxed text-zinc-600 dark:text-zinc-400">
+        <p>
+          I&apos;m a tech enthusiast born and raised in{' '}
+          <span className="font-medium text-black dark:text-white">
+            Chennai, India
+          </span>
+          . I often find myself expressing ideas through code more naturally than
+          words—hopefully my work will speak for itself.
+        </p>
+        <p>
+          I&apos;m currently working at{' '}
+          <span className="font-medium text-black dark:text-white">
+            E2 Infosystems
+          </span>
+          . I previously majored in Computer Science and built mobile apps at
+          various startups. On the side, I play tennis and I&apos;m a die-hard fan
+          of Linus Torvalds.
+        </p>
+        <p>
+          Life&apos;s short, time&apos;s precious, and the tech world moves fast.
+          But I&apos;m learning to balance the hustle—to breathe, to rest. If
+          there&apos;s anything worth optimizing for, it&apos;s the people who
+          mean the most to you, and the passions that bring pure joy to your life.
+        </p>
+      </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         {SOCIAL_LINKS.map((link) => (
           <a
