@@ -36,10 +36,11 @@ export function Header() {
         <p>
           I&apos;m a tech enthusiast born and raised in{' '}
           <span className="font-medium text-black dark:text-white">
-            Chennai, India
+            Kumbakonam, Tamil Nadu
           </span>
-          . I often find myself expressing ideas through code more naturally
-          than words—hopefully my work will speak for itself.
+          . I moved to Chennai for work. I often find myself expressing ideas
+          through code more naturally than words—hopefully my work will speak
+          for itself.
         </p>
         <p>
           I&apos;m currently working at{' '}
