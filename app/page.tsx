@@ -171,7 +171,7 @@ function TiltedCarousel() {
   const images = [...TILTED_IMAGES, ...TILTED_IMAGES]
   return (
     <div className="flex gap-4 overflow-hidden py-10">
-      <div className="animate-scroll flex gap-4 hover:[animation-play-state:paused] [will-change:transform]">
+      <div className="animate-scroll flex gap-4 [will-change:transform] hover:[animation-play-state:paused]">
         {images.map((src, i) => (
           <motion.div
             key={`carousel-${i < TILTED_IMAGES.length ? 'a' : 'b'}-${i % TILTED_IMAGES.length}`}
