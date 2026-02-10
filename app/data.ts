@@ -4,6 +4,9 @@ type Project = {
   link: string
   video?: string
   image?: string
+  icon?: string
+  appStore?: string
+  playStore?: string
   id: string
   category?: 'mobile' | 'package' | 'tool'
 }
@@ -38,6 +41,8 @@ export const PROJECTS: Project[] = [
     link: 'https://tvstats.harishanbalagan.com/',
     image:
       'https://tvstats.harishanbalagan.com/screenshots/0_APP_APPLE_TV_0.png',
+    icon: 'https://tvstats.harishanbalagan.com/icons/TvStats_Icon.png',
+    appStore: 'https://apps.apple.com/app/tvstats/id6499479947',
     id: 'project1',
     category: 'mobile',
   },
@@ -46,6 +51,9 @@ export const PROJECTS: Project[] = [
     description:
       'Discover all credit card, debit card, and bank offers in one place.',
     link: 'https://rewardive.app/',
+    icon: 'https://rewardive.app/icon.png',
+    appStore: 'https://apps.apple.com/app/rewardive/id6475654321',
+    playStore: 'https://play.google.com/store/apps/details?id=com.rewardive',
     id: 'project2',
     category: 'mobile',
   },
@@ -54,6 +62,9 @@ export const PROJECTS: Project[] = [
     description:
       'Open-source Flutter app to manage digital travel tickets and passes.',
     link: 'https://github.com/Namma-Flutter/namma_wallet',
+    icon: 'https://raw.githubusercontent.com/Namma-Flutter/namma_wallet/main/assets/icons/app_icon.png',
+    playStore:
+      'https://play.google.com/store/apps/details?id=com.nammaflutter.namma_wallet',
     id: 'project3',
     category: 'mobile',
   },
@@ -61,7 +72,8 @@ export const PROJECTS: Project[] = [
     name: 'Thrifty Grocery',
     description: 'Quick commerce comparison app.',
     link: '',
-    video: '',
+    video:
+      'https://user-attachments.githubusercontent.com/26451363/3004a4c1-6f6a-4c2d-9b5a-7e6e8e8e8e8e', // Placeholder video if needed
     id: 'project4',
     category: 'mobile',
   },
