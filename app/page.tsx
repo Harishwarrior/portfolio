@@ -1,16 +1,16 @@
 'use client'
-import { useState } from 'react'
-import { motion } from 'motion/react'
-import { XIcon } from 'lucide-react'
-import { Spotlight } from '@/components/ui/spotlight'
 import {
   MorphingDialog,
-  MorphingDialogTrigger,
-  MorphingDialogContent,
   MorphingDialogClose,
   MorphingDialogContainer,
+  MorphingDialogContent,
+  MorphingDialogTrigger,
 } from '@/components/ui/morphing-dialog'
-import { PROJECTS, WORK_EXPERIENCE, BLOG_POSTS, EMAIL } from './data'
+import { Spotlight } from '@/components/ui/spotlight'
+import { XIcon } from 'lucide-react'
+import { motion } from 'motion/react'
+import { useState } from 'react'
+import { BLOG_POSTS, EMAIL, PROJECTS, WORK_EXPERIENCE } from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -145,7 +145,7 @@ function ProjectMedia({ video, image, title }: ProjectMediaProps) {
 
 const TILTED_IMAGES = [
   '/carousel/PXL_20220309_163948803~2_Original.webp',
-  '/carousel/PXL_20220522_211112715.PORTRAIT_Original.webp',
+  '/carousel/1651057733240_Original.webp',
   '/carousel/PXL_20221119_121931327_Original.webp',
   '/carousel/IMG_5705_Original.webp',
   '/carousel/FullSizeRender_Original.webp',
@@ -227,31 +227,28 @@ export default function Personal() {
             <div className="flex gap-1 rounded-full border border-zinc-200 bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-900">
               <button
                 onClick={() => setFilter('mobile')}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                  filter === 'mobile'
-                    ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
-                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
-                }`}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === 'mobile'
+                  ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
+                  : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  }`}
               >
                 Mobile Apps
               </button>
               <button
                 onClick={() => setFilter('package')}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                  filter === 'package'
-                    ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
-                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
-                }`}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === 'package'
+                  ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
+                  : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  }`}
               >
                 Packages
               </button>
               <button
                 onClick={() => setFilter('tool')}
-                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-                  filter === 'tool'
-                    ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
-                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
-                }`}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filter === 'tool'
+                  ? 'bg-white text-black shadow-sm dark:bg-zinc-800 dark:text-zinc-50'
+                  : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  }`}
               >
                 Tools
               </button>
@@ -339,10 +336,10 @@ export default function Personal() {
                   className="relative block overflow-hidden rounded-2xl bg-zinc-300/30 p-[1px] dark:bg-zinc-600/30"
                   {...(isLink
                     ? {
-                        href: job.link,
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                      }
+                      href: job.link,
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    }
                     : {})}
                 >
                   <Spotlight
