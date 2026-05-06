@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: '%s | Harish',
   },
   description:
-    'Harish is a Senior Software Engineer who has built 80+ mobile apps. Specialist in Flutter development and mobile experiences.',
+    'Tech enthusiast from Chennai, India. Senior Software Engineer at E2 Infosystems specializing in Flutter development and mobile apps. Previously built mobile apps at various startups.',
 }
 
 const geist = Geist({

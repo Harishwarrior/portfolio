@@ -22,15 +22,15 @@
 }
 
 @theme {
-  --animate-scroll: scroll 40s linear infinite;
+  --animate-scroll: scroll 80s linear infinite;
 
   @keyframes scroll {
     from {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
 
     to {
-      transform: translateX(calc(-50% - 1rem));
+      transform: translate3d(calc(-50% - 1rem), 0, 0);
     }
   }
 }

@@ -32,6 +32,15 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
+    name: 'Hush',
+    description:
+      'Manage and silence Android notifications with per-app controls.',
+    link: 'https://play.google.com/store/apps/details?id=com.harishanbalagan.hush',
+    image: '/hush.png',
+    id: 'project5',
+    category: 'mobile',
+  },
+  {
     name: 'TvStats',
     description:
       'Monitor Apple TV system performance with real-time CPU and memory metrics.',
@@ -46,6 +55,7 @@ export const PROJECTS: Project[] = [
     description:
       'Discover all credit card, debit card, and bank offers in one place.',
     link: 'https://rewardive.app/',
+    image: '/rewardive.png',
     id: 'project2',
     category: 'mobile',
   },
@@ -54,6 +64,7 @@ export const PROJECTS: Project[] = [
     description:
       'Open-source Flutter app to manage digital travel tickets and passes.',
     link: 'https://github.com/Namma-Flutter/namma_wallet',
+    image: '/namma-wallet.png',
     id: 'project3',
     category: 'mobile',
   },
@@ -95,10 +106,17 @@ export const PROJECTS: Project[] = [
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
   {
-    company: 'E2 Infosystems Ltd',
-    title: 'Senior Software Engineer',
-    start: 'Aug 2023',
+    company: 'Comcast',
+    title: 'Development Engineer 3',
+    start: 'Apr 2026',
     end: 'Present',
+    id: 'work0',
+  },
+  {
+    company: 'E2 Infosystems Ltd',
+    title: 'Senior Developer (Mobile Tech)',
+    start: 'Aug 2023',
+    end: 'Mar 2026',
     id: 'work1',
   },
   {
@@ -110,7 +128,7 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
   },
   {
     company: 'Thiran Technologies',
-    title: 'Software Engineer',
+    title: 'Mobile Developer',
     start: 'Aug 2021',
     end: 'Jul 2023',
     link: 'https://thirantech.com/',
@@ -176,6 +194,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'GitHub',
     link: 'https://github.com/harishwarrior',
+  },
+  {
+    label: 'Medium',
+    link: 'https://medium.com/@harishwarrior',
   },
 ]
 
