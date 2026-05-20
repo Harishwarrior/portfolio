@@ -46,4 +46,4 @@ Deploy to Vercel, Netlify, or any platform that supports Next.js.
 
 ## Contact
 
-Feel free to reach out at harishanbalagandev@gmail.com
+Feel free to reach out at <harishanbalagandev@gmail.com>
