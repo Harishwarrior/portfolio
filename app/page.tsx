@@ -10,7 +10,14 @@ import { Spotlight } from '@/components/ui/spotlight'
 import { XIcon } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { BLOG_POSTS, EMAIL, PROJECTS, WORK_EXPERIENCE } from './data'
+import { WEBSITE_DESCRIPTION, WEBSITE_URL } from '@/lib/constants'
+import {
+  BLOG_POSTS,
+  EMAIL,
+  PROJECTS,
+  SOCIAL_LINKS,
+  WORK_EXPERIENCE,
+} from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -201,35 +208,28 @@ const JSON_LD = {
   '@graph': [
     {
       '@type': 'Person',
-      '@id': 'https://harishanbalagan.com/#person',
+      '@id': `${WEBSITE_URL}/#person`,
       name: 'Harish Anbalagan',
-      url: 'https://harishanbalagan.com',
-      image: 'https://harishanbalagan.com/cover.jpg',
-      description:
-        'Senior Software Engineer specializing in Flutter development, mobile apps, and custom developer tools.',
-      jobTitle: 'Development Engineer 3',
+      url: WEBSITE_URL,
+      image: `${WEBSITE_URL}/cover.jpg`,
+      description: WEBSITE_DESCRIPTION,
+      jobTitle: WORK_EXPERIENCE[0].title,
       worksFor: {
         '@type': 'Organization',
-        name: 'Comcast',
+        name: WORK_EXPERIENCE[0].company,
       },
-      sameAs: [
-        'https://twitter.com/theflutterboi',
-        'https://www.linkedin.com/in/harishanbalagan',
-        'https://www.youtube.com/@theflutterboi',
-        'https://github.com/harishwarrior',
-        'https://medium.com/@harishwarrior',
-      ],
-      email: 'harishanbalagandev@gmail.com',
+      sameAs: SOCIAL_LINKS.map((s) => s.link),
+      email: EMAIL,
     },
     {
       '@type': 'ProfilePage',
-      '@id': 'https://harishanbalagan.com/#webpage',
-      url: 'https://harishanbalagan.com',
+      '@id': `${WEBSITE_URL}/#webpage`,
+      url: WEBSITE_URL,
       name: 'Harish - Flutter Developer Portfolio',
       description:
         'Professional portfolio website showcasing mobile apps, packages, tools, and technical articles by Harish Anbalagan.',
       about: {
-        '@id': 'https://harishanbalagan.com/#person',
+        '@id': `${WEBSITE_URL}/#person`,
       },
     },
   ],

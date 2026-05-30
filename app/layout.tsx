@@ -5,6 +5,8 @@ import { Header } from './header'
 import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
 
+import { WEBSITE_DESCRIPTION, WEBSITE_URL } from '@/lib/constants'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -12,7 +14,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://harishanbalagan.com/'),
+  metadataBase: new URL(WEBSITE_URL),
   alternates: {
     canonical: '/',
   },
@@ -20,8 +22,7 @@ export const metadata: Metadata = {
     default: 'Harish - Flutter Developer',
     template: '%s | Harish',
   },
-  description:
-    'Tech enthusiast from Chennai, India. Software Engineer specializing in Flutter development, mobile apps, and custom developer tools.',
+  description: WEBSITE_DESCRIPTION,
   keywords: [
     'Flutter',
     'Flutter Developer',

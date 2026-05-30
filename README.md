@@ -4,7 +4,7 @@ Personal portfolio website showcasing my work as a Flutter Developer, including 
 
 ## Tech Stack
 
-- **Framework**: Next.js 15
+- **Framework**: Next.js 16.1.5
 - **UI Library**: React 19
 - **Styling**: Tailwind CSS v4
 - **Animations**: Motion & Motion-Primitives
