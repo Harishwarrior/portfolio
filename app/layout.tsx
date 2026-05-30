@@ -22,8 +22,7 @@ export const metadata: Metadata = {
     default: 'Harish - Flutter Developer',
     template: '%s | Harish',
   },
-  description:
-    WEBSITE_DESCRIPTION,
+  description: WEBSITE_DESCRIPTION,
   keywords: [
     'Flutter',
     'Flutter Developer',

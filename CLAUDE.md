@@ -13,7 +13,7 @@ There is no test suite. Biome is configured (`biome.json`) but not wired to an n
 
 ## Architecture
 
-This is a **Next.js 15 App Router** static site (`next.config.mjs` sets `output: 'export'`), forked from the [`nim`](https://github.com/ibelick/nim) template. Treat it as a content-driven portfolio, not a dynamic app — there are no API routes, no server actions, and no runtime backend.
+This is a **Next.js 16.1.5 App Router** static site (`next.config.mjs` sets `output: 'export'`), forked from the [`nim`](https://github.com/ibelick/nim) template. Treat it as a content-driven portfolio, not a dynamic app — there are no API routes, no server actions, and no runtime backend.
 
 Implications of static export:
 - `images: { unoptimized: true }` — use plain `<img>` tags, not `next/image`. Existing components already do this.
