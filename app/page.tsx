@@ -203,6 +203,45 @@ function TiltedCarousel() {
   )
 }
 
+const JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://harishanbalagan.com/#person',
+      name: 'Harish Anbalagan',
+      url: 'https://harishanbalagan.com',
+      image: 'https://harishanbalagan.com/cover.jpg',
+      description:
+        'Senior Software Engineer specializing in Flutter development, mobile apps, and custom developer tools.',
+      jobTitle: 'Development Engineer 3',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Comcast',
+      },
+      sameAs: [
+        'https://twitter.com/theflutterboi',
+        'https://www.linkedin.com/in/harishanbalagan',
+        'https://www.youtube.com/@theflutterboi',
+        'https://github.com/harishwarrior',
+        'https://medium.com/@harishwarrior',
+      ],
+      email: 'harishanbalagandev@gmail.com',
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': 'https://harishanbalagan.com/#webpage',
+      url: 'https://harishanbalagan.com',
+      name: 'Harish - Flutter Developer Portfolio',
+      description:
+        'Professional portfolio website showcasing mobile apps, packages, tools, and technical articles by Harish Anbalagan.',
+      about: {
+        '@id': 'https://harishanbalagan.com/#person',
+      },
+    },
+  ],
+}
+
 export default function Personal() {
   const [filter, setFilter] = useState<'mobile' | 'package' | 'tool'>('mobile')
 
@@ -214,6 +253,10 @@ export default function Personal() {
       initial="hidden"
       animate="visible"
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+      />
       <motion.section
         key="carousel"
         variants={VARIANTS_SECTION}
@@ -249,7 +292,7 @@ export default function Personal() {
           transition={TRANSITION_SECTION}
         >
           <div className="mb-8 flex items-center justify-between">
-            <h3 className="text-lg font-medium">My works</h3>
+            <h2 className="text-lg font-medium">My works</h2>
             <div className="flex gap-1 rounded-full border border-zinc-200 bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-900">
               <button
                 onClick={() => setFilter('mobile')}
@@ -318,7 +361,7 @@ export default function Personal() {
           variants={VARIANTS_SECTION}
           transition={TRANSITION_SECTION}
         >
-          <h3 className="mb-5 text-lg font-medium">Articles</h3>
+          <h2 className="mb-5 text-lg font-medium">Articles</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {BLOG_POSTS.map((post) => (
               <a
@@ -353,7 +396,7 @@ export default function Personal() {
           variants={VARIANTS_SECTION}
           transition={TRANSITION_SECTION}
         >
-          <h3 className="mb-5 text-lg font-medium">Work Experience</h3>
+          <h2 className="mb-5 text-lg font-medium">Work Experience</h2>
           <div className="flex flex-col space-y-2">
             {WORK_EXPERIENCE.map((job) => {
               const isLink = job.link && job.link !== '#' && job.link !== ''
@@ -401,7 +444,7 @@ export default function Personal() {
           variants={VARIANTS_SECTION}
           transition={TRANSITION_SECTION}
         >
-          <h3 className="mb-5 text-lg font-medium">Connect</h3>
+          <h2 className="mb-5 text-lg font-medium">Connect</h2>
           <p className="text-zinc-600 dark:text-zinc-400">
             Feel free to contact me at{' '}
             <a

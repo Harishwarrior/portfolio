@@ -25,12 +25,11 @@ export function Header() {
     <header className="mb-8">
       <div className="flex items-center justify-between">
         <div>
-          <Link
-            href="/"
-            className="text-lg font-medium text-black dark:text-white"
-          >
-            Harish
-          </Link>
+          <h1 className="text-lg font-medium">
+            <Link href="/" className="text-black dark:text-white">
+              Harish
+            </Link>
+          </h1>
           <TextEffect
             as="p"
             preset="fade"
