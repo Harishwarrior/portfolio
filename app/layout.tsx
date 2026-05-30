@@ -5,7 +5,7 @@ import { Header } from './header'
 import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
 
-import { WEBSITE_URL } from '@/lib/constants'
+import { WEBSITE_DESCRIPTION, WEBSITE_URL } from '@/lib/constants'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -22,8 +22,7 @@ export const metadata: Metadata = {
     default: 'Harish - Flutter Developer',
     template: '%s | Harish',
   },
-  description:
-    'Tech enthusiast from Chennai, India. Senior Software Engineer at E2 Infosystems specializing in Flutter development and mobile apps. Previously built mobile apps at various startups.',
+  description: WEBSITE_DESCRIPTION,
 }
 
 const geist = Geist({

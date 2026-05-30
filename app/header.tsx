@@ -1,7 +1,7 @@
 'use client'
 import { TextEffect } from '@/components/ui/text-effect'
 import Link from 'next/link'
-import { SOCIAL_LINKS } from './data'
+import { SOCIAL_LINKS, WORK_EXPERIENCE } from './data'
 
 function totalExperience(startYear: number, startMonth: number) {
   const start = new Date(startYear, startMonth - 1, 1)
@@ -62,7 +62,7 @@ export function Header() {
         <p>
           I&apos;m currently working at{' '}
           <span className="font-medium text-black dark:text-white">
-            E2 Infosystems
+            {WORK_EXPERIENCE[0].company}
           </span>
           . I previously majored in Computer Science and built mobile apps at
           various startups. On the side, I play tennis and I&apos;m a die-hard

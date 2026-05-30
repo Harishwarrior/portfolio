@@ -10,7 +10,14 @@ import { Spotlight } from '@/components/ui/spotlight'
 import { XIcon } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { BLOG_POSTS, EMAIL, PROJECTS, WORK_EXPERIENCE } from './data'
+import { WEBSITE_DESCRIPTION } from '@/lib/constants'
+import {
+  BLOG_POSTS,
+  EMAIL,
+  PROJECTS,
+  SOCIAL_LINKS,
+  WORK_EXPERIENCE,
+} from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -217,6 +224,25 @@ export default function Personal() {
       </motion.section>
 
       <div className="mx-auto mt-16 max-w-screen-sm space-y-24 px-4">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: 'Harish Anbalagan',
+              description: WEBSITE_DESCRIPTION,
+              jobTitle: WORK_EXPERIENCE[0].title,
+              worksFor: {
+                '@type': 'Organization',
+                name: WORK_EXPERIENCE[0].company,
+              },
+              url: 'https://harishanbalagan.com',
+              email: EMAIL,
+              sameAs: SOCIAL_LINKS.map((s) => s.link),
+            }),
+          }}
+        />
         <motion.section
           key="projects"
           variants={VARIANTS_SECTION}
