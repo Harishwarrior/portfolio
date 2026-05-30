@@ -5,6 +5,8 @@ import { Header } from './header'
 import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
 
+import { WEBSITE_URL } from '@/lib/constants'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -12,7 +14,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://harishanbalagan.com/'),
+  metadataBase: new URL(WEBSITE_URL),
   alternates: {
     canonical: '/',
   },
