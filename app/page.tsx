@@ -228,6 +228,9 @@ const JSON_LD = {
       name: 'Harish - Flutter Developer Portfolio',
       description:
         'Professional portfolio website showcasing mobile apps, packages, tools, and technical articles by Harish Anbalagan.',
+      mainEntity: {
+        '@id': `${WEBSITE_URL}/#person`,
+      },
       about: {
         '@id': `${WEBSITE_URL}/#person`,
       },

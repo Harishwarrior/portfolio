@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(WEBSITE_URL),
   alternates: {
-    canonical: '/',
+    canonical: WEBSITE_URL,
   },
   title: {
     default: 'Harish - Flutter Developer',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: 'Harish - Flutter Developer',
     description:
       'Tech enthusiast from Chennai, India. Software Engineer specializing in Flutter development, mobile apps, and custom developer tools.',
-    url: 'https://harishanbalagan.com',
+    url: WEBSITE_URL,
     siteName: 'Harish Portfolio',
     images: [
       {
