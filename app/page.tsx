@@ -10,14 +10,7 @@ import { Spotlight } from '@/components/ui/spotlight'
 import { XIcon } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
-import { WEBSITE_DESCRIPTION, WEBSITE_URL } from '@/lib/constants'
-import {
-  BLOG_POSTS,
-  EMAIL,
-  PROJECTS,
-  SOCIAL_LINKS,
-  WORK_EXPERIENCE,
-} from './data'
+import { BLOG_POSTS, EMAIL, PROJECTS, WORK_EXPERIENCE } from './data'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -67,6 +60,8 @@ function ProjectMedia({ video, image, title }: ProjectMediaProps) {
             src={image}
             alt={`Preview image of ${title}`}
             className="aspect-video w-full cursor-zoom-in rounded-xl object-cover"
+            loading="lazy"
+            decoding="async"
           />
         </MorphingDialogTrigger>
         <MorphingDialogContainer>
@@ -78,6 +73,8 @@ function ProjectMedia({ video, image, title }: ProjectMediaProps) {
               src={image}
               alt={`Enlarged image of ${title}`}
               className="aspect-video h-[50vh] w-full rounded-xl object-cover md:h-[70vh]"
+              loading="lazy"
+              decoding="async"
             />
           </MorphingDialogContent>
           <MorphingDialogClose
@@ -203,41 +200,6 @@ function TiltedCarousel() {
   )
 }
 
-const JSON_LD = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Person',
-      '@id': `${WEBSITE_URL}/#person`,
-      name: 'Harish Anbalagan',
-      url: WEBSITE_URL,
-      image: `${WEBSITE_URL}/cover.jpg`,
-      description: WEBSITE_DESCRIPTION,
-      jobTitle: WORK_EXPERIENCE[0].title,
-      worksFor: {
-        '@type': 'Organization',
-        name: WORK_EXPERIENCE[0].company,
-      },
-      sameAs: SOCIAL_LINKS.map((s) => s.link),
-      email: EMAIL,
-    },
-    {
-      '@type': 'ProfilePage',
-      '@id': `${WEBSITE_URL}/#webpage`,
-      url: WEBSITE_URL,
-      name: 'Harish - Flutter Developer Portfolio',
-      description:
-        'Professional portfolio website showcasing mobile apps, packages, tools, and technical articles by Harish Anbalagan.',
-      mainEntity: {
-        '@id': `${WEBSITE_URL}/#person`,
-      },
-      about: {
-        '@id': `${WEBSITE_URL}/#person`,
-      },
-    },
-  ],
-}
-
 export default function Personal() {
   const [filter, setFilter] = useState<'mobile' | 'package' | 'tool'>('mobile')
 
@@ -249,10 +211,6 @@ export default function Personal() {
       initial="hidden"
       animate="visible"
     >
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
-      />
       <motion.section
         key="carousel"
         variants={VARIANTS_SECTION}
@@ -315,15 +273,21 @@ export default function Personal() {
                   />
                 </div>
                 <div className="px-1">
-                  <a
-                    className="font-base group/link relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {project.name}
-                    <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-emerald-500 transition-all duration-200 group-hover/link:max-w-full"></span>
-                  </a>
+                  {project.link ? (
+                    <a
+                      className="font-base group/link relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {project.name}
+                      <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-emerald-500 transition-all duration-200 group-hover/link:max-w-full"></span>
+                    </a>
+                  ) : (
+                    <span className="font-base inline-block font-[450] text-zinc-900 dark:text-zinc-50">
+                      {project.name}
+                    </span>
+                  )}
                   <p className="text-base text-zinc-600 dark:text-zinc-400">
                     {project.description}
                   </p>
@@ -353,12 +317,14 @@ export default function Personal() {
                     src={post.image}
                     alt={post.title}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className="p-4">
-                  <h4 className="line-clamp-2 font-medium text-zinc-900 transition-colors group-hover:text-emerald-600 dark:text-zinc-100 dark:group-hover:text-emerald-400">
+                  <h3 className="line-clamp-2 text-base font-medium text-zinc-900 transition-colors group-hover:text-emerald-600 dark:text-zinc-100 dark:group-hover:text-emerald-400">
                     {post.title}
-                  </h4>
+                  </h3>
                   <p className="mt-1 line-clamp-2 text-sm text-zinc-500 dark:text-zinc-400">
                     {post.description}
                   </p>
@@ -398,9 +364,9 @@ export default function Personal() {
                   <div className="relative h-full w-full rounded-[15px] bg-white p-4 dark:bg-zinc-950">
                     <div className="relative flex w-full flex-row justify-between">
                       <div>
-                        <h4 className="font-normal dark:text-zinc-100">
+                        <h3 className="font-normal dark:text-zinc-100">
                           {job.title}
-                        </h4>
+                        </h3>
                         <p className="text-zinc-500 dark:text-zinc-400">
                           {job.company}
                         </p>

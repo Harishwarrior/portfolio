@@ -6,11 +6,15 @@ import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
 
 import { WEBSITE_DESCRIPTION, WEBSITE_URL } from '@/lib/constants'
+import { WORK_EXPERIENCE, SOCIAL_LINKS, EMAIL } from './data'
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#ffffff',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+  ],
 }
 
 export const metadata: Metadata = {
@@ -95,7 +99,48 @@ export default function RootLayout({
             <div className="relative mx-auto w-full max-w-screen-sm px-4 pt-20">
               <Header />
             </div>
-            <div className="flex-1">{children}</div>
+            <div className="flex-1">
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@graph': [
+                      {
+                        '@type': 'Person',
+                        '@id': `${WEBSITE_URL}/#person`,
+                        name: 'Harish Anbalagan',
+                        url: WEBSITE_URL,
+                        image: `${WEBSITE_URL}/cover.jpg`,
+                        description: WEBSITE_DESCRIPTION,
+                        jobTitle: WORK_EXPERIENCE[0].title,
+                        worksFor: {
+                          '@type': 'Organization',
+                          name: WORK_EXPERIENCE[0].company,
+                        },
+                        sameAs: SOCIAL_LINKS.map((s) => s.link),
+                        email: EMAIL,
+                      },
+                      {
+                        '@type': 'ProfilePage',
+                        '@id': `${WEBSITE_URL}/#webpage`,
+                        url: WEBSITE_URL,
+                        name: 'Harish - Flutter Developer Portfolio',
+                        description:
+                          'Professional portfolio website showcasing mobile apps, packages, tools, and technical articles by Harish Anbalagan.',
+                        mainEntity: {
+                          '@id': `${WEBSITE_URL}/#person`,
+                        },
+                        about: {
+                          '@id': `${WEBSITE_URL}/#person`,
+                        },
+                      },
+                    ],
+                  }),
+                }}
+              />
+              {children}
+            </div>
             <div className="relative mx-auto w-full max-w-screen-sm px-4">
               <Footer />
             </div>
