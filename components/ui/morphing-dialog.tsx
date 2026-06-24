@@ -19,7 +19,6 @@ import {
 import { createPortal } from 'react-dom'
 import { cn } from '@/lib/utils'
 import { XIcon } from 'lucide-react'
-import useClickOutside from '@/hooks/useClickOutside'
 
 export type MorphingDialogContextType = {
   isOpen: boolean
@@ -210,11 +209,27 @@ function MorphingDialogContent({
     }
   }, [isOpen, triggerRef])
 
-  useClickOutside(containerRef, () => {
-    if (isOpen) {
-      setIsOpen(false)
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        !containerRef.current ||
+        containerRef.current.contains(event.target as Node)
+      ) {
+        return
+      }
+      if (isOpen) {
+        setIsOpen(false)
+      }
     }
-  })
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [containerRef, isOpen, setIsOpen])
 
   return (
     <motion.div
@@ -272,121 +287,6 @@ function MorphingDialogContainer({ children }: MorphingDialogContainerProps) {
   )
 }
 
-export type MorphingDialogTitleProps = {
-  children: React.ReactNode
-  className?: string
-  style?: React.CSSProperties
-}
-
-function MorphingDialogTitle({
-  children,
-  className,
-  style,
-}: MorphingDialogTitleProps) {
-  const { uniqueId } = useMorphingDialog()
-
-  return (
-    <motion.div
-      layoutId={`dialog-title-container-${uniqueId}`}
-      className={className}
-      style={style}
-      id={`motion-ui-morphing-dialog-title-${uniqueId}`}
-      layout
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-export type MorphingDialogSubtitleProps = {
-  children: React.ReactNode
-  className?: string
-  style?: React.CSSProperties
-}
-
-function MorphingDialogSubtitle({
-  children,
-  className,
-  style,
-}: MorphingDialogSubtitleProps) {
-  const { uniqueId } = useMorphingDialog()
-
-  return (
-    <motion.div
-      layoutId={`dialog-subtitle-container-${uniqueId}`}
-      className={className}
-      style={style}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-export type MorphingDialogDescriptionProps = {
-  children: React.ReactNode
-  className?: string
-  disableLayoutAnimation?: boolean
-  variants?: {
-    initial: Variant
-    animate: Variant
-    exit: Variant
-  }
-}
-
-function MorphingDialogDescription({
-  children,
-  className,
-  variants,
-  disableLayoutAnimation,
-}: MorphingDialogDescriptionProps) {
-  const { uniqueId } = useMorphingDialog()
-
-  return (
-    <motion.div
-      key={`dialog-description-${uniqueId}`}
-      layoutId={
-        disableLayoutAnimation
-          ? undefined
-          : `dialog-description-content-${uniqueId}`
-      }
-      variants={variants}
-      className={className}
-      id={`motion-ui-morphing-dialog-description-${uniqueId}`}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-export type MorphingDialogImageProps = {
-  src: string
-  alt: string
-  className?: string
-  style?: React.CSSProperties
-}
-
-function MorphingDialogImage({
-  src,
-  alt,
-  className,
-  style,
-}: MorphingDialogImageProps) {
-  const { uniqueId } = useMorphingDialog()
-
-  return (
-    <motion.img
-      src={src}
-      alt={alt}
-      className={cn(className)}
-      layoutId={`dialog-img-${uniqueId}`}
-      style={style}
-    />
-  )
-}
-
 export type MorphingDialogCloseProps = {
   children?: React.ReactNode
   className?: string
@@ -431,8 +331,4 @@ export {
   MorphingDialogContainer,
   MorphingDialogContent,
   MorphingDialogClose,
-  MorphingDialogTitle,
-  MorphingDialogSubtitle,
-  MorphingDialogDescription,
-  MorphingDialogImage,
 }

@@ -14,17 +14,10 @@ const eslintConfig = [
     'next/core-web-vitals',
     'next/typescript',
     'plugin:prettier/recommended',
-    'plugin:mdx/recommended',
   ),
   {
     rules: {
       '@next/next/no-img-element': 'off',
-    },
-  },
-  {
-    files: ['**/*.md', '**/*.mdx'],
-    rules: {
-      'react/jsx-no-undef': 'off',
     },
   },
 ]

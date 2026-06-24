@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @custom-variant dark (&:is(.dark *));
 
 /*
@@ -33,15 +32,4 @@
       transform: translate3d(calc(-50% - 1rem), 0, 0);
     }
   }
-}
-
-:root {
-  --sh-class: #7aa2f7;
-  --sh-sign: #89ddff;
-  --sh-string: #9ece6a;
-  --sh-keyword: #bb9af7;
-  --sh-comment: #565f89;
-  --sh-jsxliterals: #7aa2f7;
-  --sh-property: #73daca;
-  --sh-entity: #e0af68;
 }
