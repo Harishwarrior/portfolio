@@ -6,7 +6,7 @@ import { Footer } from './footer'
 import { ThemeProvider } from 'next-themes'
 
 import { WEBSITE_DESCRIPTION, WEBSITE_URL } from '@/lib/constants'
-import { WORK_EXPERIENCE, SOCIAL_LINKS, EMAIL } from './data'
+import { WORK_EXPERIENCE, SOCIAL_LINKS, EMAIL, PROJECTS } from './data'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -41,6 +41,11 @@ export const metadata: Metadata = {
     'Namma Wallet',
     'JankKiller',
   ],
+  other: {
+    'profile:first_name': 'Harish',
+    'profile:last_name': 'Anbalagan',
+    'profile:username': 'theflutterboi',
+  },
   openGraph: {
     title: 'Harish - Flutter Developer',
     description:
@@ -67,6 +72,7 @@ export const metadata: Metadata = {
     creator: '@theflutterboi',
     images: ['/cover.jpg'],
   },
+  referrer: 'origin-when-cross-origin',
 }
 
 const geist = Geist({
@@ -135,6 +141,32 @@ export default function RootLayout({
                           '@id': `${WEBSITE_URL}/#person`,
                         },
                       },
+                      {
+                        '@type': 'BreadcrumbList',
+                        '@id': `${WEBSITE_URL}/#breadcrumb`,
+                        itemListElement: [
+                          {
+                            '@type': 'ListItem',
+                            position: 1,
+                            name: 'Home',
+                            item: WEBSITE_URL,
+                          },
+                        ],
+                      },
+                      ...PROJECTS.map((p, i) => ({
+                        '@type': 'SoftwareApplication',
+                        '@id': `${WEBSITE_URL}/#${p.id}`,
+                        name: p.name,
+                        description: p.description,
+                        url: p.link || WEBSITE_URL,
+                        applicationCategory: p.category === 'mobile' ? 'MobileApplication' : 'DeveloperApplication',
+                        offers: {
+                          '@type': 'Offer',
+                          price: '0',
+                          priceCurrency: 'USD',
+                        },
+                      })),
+
                     ],
                   }),
                 }}

@@ -11,6 +11,7 @@ import { XIcon } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useState } from 'react'
 import { BLOG_POSTS, EMAIL, PROJECTS, WORK_EXPERIENCE } from './data'
+import { LazyImage } from '@/components/ui/lazy-image'
 
 const VARIANTS_CONTAINER = {
   hidden: { opacity: 0 },
@@ -184,15 +185,28 @@ function TiltedCarousel() {
             whileHover={{ scale: 1.05, rotate: 0, zIndex: 10 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
-            <img
-              src={src}
-              alt=""
-              aria-hidden="true"
-              className="h-full w-full object-cover"
-              loading={i < 2 ? 'eager' : 'lazy'}
-              fetchPriority={i < 2 ? 'high' : 'low'}
-              decoding="async"
-            />
+            {i < 2 ? (
+              <img
+                src={src.replace('/carousel/', '/carousel/opt/')}
+                alt=""
+                aria-hidden="true"
+                width={256}
+                height={192}
+                className="h-full w-full object-cover"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+            ) : (
+              <LazyImage
+                src={src.replace('/carousel/', '/carousel/opt/')}
+                alt=""
+                aria-hidden="true"
+                width={256}
+                height={192}
+                className="h-full w-full object-cover"
+              />
+            )}
           </motion.div>
         ))}
       </div>
@@ -273,20 +287,20 @@ export default function Personal() {
                   />
                 </div>
                 <div className="px-1">
-                  {project.link ? (
+                    {project.link ? (
                     <a
                       className="font-base group/link relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {project.name}
+                      <h3 className="inline text-base font-[450]">{project.name}</h3>
                       <span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-emerald-500 transition-all duration-200 group-hover/link:max-w-full"></span>
                     </a>
                   ) : (
-                    <span className="font-base inline-block font-[450] text-zinc-900 dark:text-zinc-50">
+                    <h3 className="font-base inline-block font-[450] text-zinc-900 dark:text-zinc-50">
                       {project.name}
-                    </span>
+                    </h3>
                   )}
                   <p className="text-base text-zinc-600 dark:text-zinc-400">
                     {project.description}
@@ -316,6 +330,8 @@ export default function Personal() {
                   <img
                     src={post.image}
                     alt={post.title}
+                    width={600}
+                    height={300}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                     decoding="async"
